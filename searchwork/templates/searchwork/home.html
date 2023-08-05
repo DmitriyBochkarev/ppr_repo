@@ -1,11 +1,11 @@
 {% extends "searchwork/base.html" %}
 {% block content %}
-    {% for post in posts %}
+    {% for task in tasks %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ task.author }}</a>
+              <a class="mr-2" href="{% url 'user-tasks' task.author.username %}">{{ task.author }}</a>
               <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
             </div>
               <a class="article-title" href="{% url 'task-detail' task.id %}"><h2>{{ task.title }}</h2></a>

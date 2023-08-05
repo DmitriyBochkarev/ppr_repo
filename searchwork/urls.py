@@ -16,5 +16,5 @@ urlpatterns = [
     path('task/<int:pk>/update/', TaskUpdateView.as_view(), name='task-update'),
     path('task/<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
     path('about/', views.about, name='searchwork-about'),
-    path('user/<str:username>', UserTaskListView.as_view(), name='task-posts'),
+    path('user/<str:username>', UserTaskListView.as_view(), name='user-tasks'),
 ]
