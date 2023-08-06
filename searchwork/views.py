@@ -41,7 +41,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'status']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
