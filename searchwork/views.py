@@ -23,7 +23,7 @@ class TaskListView(ListView):
     template_name = 'searchwork/home.html'
     context_object_name = 'tasks'
     ordering = ['-date_posted']
-    paginate_by = 2
+    paginate_by = 10
 
 
 class TaskDetailView(DetailView):
@@ -74,7 +74,7 @@ class UserTaskListView(ListView):
     model = Task
     template_name = 'searchwork/user_tasks.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'tasks'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
