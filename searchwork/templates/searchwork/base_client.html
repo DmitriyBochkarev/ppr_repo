@@ -5,13 +5,12 @@
     <div class="d-flex justify-content-between">
       {% if user.is_authenticated %}
         <div>
-        <a class="btn btn-outline-info" href="{% url 'task-create' %}">Новое задание</a>
-        <a class="btn btn-outline-info" href="{% url 'my-tasks' user.username %}">Мои задания</a>
+            <a class="btn btn-outline-info" href="{% url 'client' %}">Мои задания</a>
         </div>
-<div>
+        <div>
             <div class="input-group">
-                <a class="btn btn-info" href="{% url 'my-tasks' user.username %}">Я покупатель</a>
-                <a class="btn btn-outline-info" href="{% url 'tasks-home' %}">Я исполнитель</a>
+                <a class="btn btn-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
       	    </div>
 		</div>
 

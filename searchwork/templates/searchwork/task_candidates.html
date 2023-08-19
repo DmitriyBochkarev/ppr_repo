@@ -2,25 +2,34 @@
 {% block content %}
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {% for candidate in candidates %}
-          <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
+        {% if candidates %}
+            {% for candidate in candidates %}
+              <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                  <div class="card-header py-3">
 
+                  </div>
+                  <div class="card-body">
+
+                    <ul class="list-unstyled mt-3 mb-4">
+                      <li>
+                          <img class="rounded-circle article-img" src="{{ candidate.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                          <a class="mr-2" href="#">Кандидат: {{ candidate.user }}</a>
+                      </li>
+                    </ul>
+
+                  </div>
+                </div>
               </div>
-              <div class="card-body">
+            {% endfor %}
 
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>
-                      <img class="rounded-circle article-img" src="{{ candidate.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-                      <a class="mr-2" href="#">Кандидат: {{ candidate.user }}</a>
-                  </li>
-                </ul>
+        {% else %}
 
-              </div>
+            <div class="card-body">
+                <h1>Еще никто не откликнулся</h1>
             </div>
-          </div>
-        {% endfor %}
+
+        {% endif %}
     </div>
 
 

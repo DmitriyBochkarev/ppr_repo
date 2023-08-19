@@ -22,5 +22,5 @@ class Task(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('task-detail', kwargs={'pk': self.pk})
+        return reverse('my-tasks', kwargs={'username': self.author.username})
 

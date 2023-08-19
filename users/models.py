@@ -48,22 +48,27 @@ class Profile(models.Model):
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.IntegerField(null=True)
+    about = models.TextField(null=True)
 
     def __str__(self):
         return f'{self.user.username} Client'
-
+    def get_absolute_url(self):
+        return reverse('my-tasks', kwargs={'username': self.user.username})
 
 class Worker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.IntegerField()
-    experience = models.TextField()
+    rating = models.IntegerField(null=True)
+    experience = models.TextField(null=True)
 
     def __str__(self):
         return f'{self.user.username} Worker'
 
+    def get_absolute_url(self):
+        return reverse('tasks-home')
+
 class Candidate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def get_absolute_url(self):

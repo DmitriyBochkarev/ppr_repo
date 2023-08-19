@@ -1,0 +1,19 @@
+
+
+{% extends "searchwork/base_worker.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Станьте исполнителем и откликайтесь на задания</legend>
+                <p>Опишите свой опыт и портфолио</p>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <a class="btn btn-outline-info" href="{% url 'worker-create' user.username %}" type="submit" >Стать исполнителем</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

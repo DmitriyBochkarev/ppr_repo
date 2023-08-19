@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
@@ -9,15 +9,10 @@ from django.views.generic import (
 )
 from .models import Task
 from django.contrib.auth.models import User
-from users.models import Candidate
+from users.models import Candidate, Worker, Client
 from django.contrib import messages
+# from .forms import CreateWorkerView
 
-
-def home(request):
-    context = {
-        'tasks': Task.objects.all()
-    }
-    return render(request, 'searchwork/home.html', context)
 
 
 class TaskListView(ListView):
@@ -58,8 +53,7 @@ class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
-    success_url = '/'
-
+    success_url = '/task/new/'
 
     def test_func(self):
         task = self.get_object()
@@ -82,6 +76,7 @@ class UserTaskListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Task.objects.filter(author=user).order_by('-date_posted')
 
+
 class MyTaskListView(ListView):
     model = Task
     template_name = 'searchwork/my_tasks.html'  # <app>/<model>_<viewtype>.html
@@ -98,18 +93,17 @@ class CandidateCreateView(CreateView):
     fields = []
 
     def form_valid(self, form):
-        print (Task.objects.get(id=self.kwargs.get('pk')).author.username)
-        print (self.request.user)
         if Candidate.objects.filter(task=self.kwargs.get('pk'), user=self.request.user):
             messages.warning(self.request, 'Вы уже откликались на данную задачу.')
             return render(self.request, 'searchwork/task_detail.html', {
-        'object': Task.objects.get(id=self.kwargs.get('pk'))
-    })
+                'object': Task.objects.get(id=self.kwargs.get('pk'))
+            })
         else:
             form.instance.user = self.request.user
             form.instance.task = Task.objects.get(id=self.kwargs.get('pk'))
             messages.success(self.request, 'Ваш отклик успешно доставлен.')
             return super().form_valid(form)
+
 
 class CandidateListView(ListView):
     model = Candidate
@@ -118,5 +112,40 @@ class CandidateListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        candidate = get_object_or_404(Task, id=self.kwargs.get('pk'))
-        return Candidate.objects.filter(task=candidate).order_by('-user')
+        task = get_object_or_404(Task, id=self.kwargs.get('pk'))
+        return Candidate.objects.filter(task=task).order_by('-user')
+
+
+class CreateWorkerView(CreateView):
+    model = Worker
+    fields = ['experience']
+
+    def form_valid(self, form):
+
+        form.instance.user = self.request.user
+        messages.success(self.request, 'Вы зарегистрированы как исполнитель.')
+        return super().form_valid(form)
+
+
+class CreateClientView(CreateView):
+    model = Client
+    fields = []
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, 'Вы зарегистрированы как заказчик.')
+        return super().form_valid(form)
+
+def worker(request):
+    if Worker.objects.filter(user=request.user):
+        return redirect('tasks-home')
+    else:
+        return render(request, 'users/worker_create.html')
+
+
+def client(request):
+    if Client.objects.filter(user=request.user):
+
+        return redirect('my-tasks', username= request.user.username)
+    else:
+        return render(request, 'users/client_create.html')
