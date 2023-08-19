@@ -93,13 +93,13 @@ class CandidateCreateView(CreateView):
     fields = []
 
     def form_valid(self, form):
-        if Candidate.objects.filter(task=self.kwargs.get('pk'), user=self.request.user):
+        if Candidate.objects.filter(task=self.kwargs.get('pk'), worker=self.request.user.worker):
             messages.warning(self.request, 'Вы уже откликались на данную задачу.')
             return render(self.request, 'searchwork/task_detail.html', {
                 'object': Task.objects.get(id=self.kwargs.get('pk'))
             })
         else:
-            form.instance.user = self.request.user
+            form.instance.worker = self.request.user.worker
             form.instance.task = Task.objects.get(id=self.kwargs.get('pk'))
             messages.success(self.request, 'Ваш отклик успешно доставлен.')
             return super().form_valid(form)
@@ -113,7 +113,7 @@ class CandidateListView(ListView):
 
     def get_queryset(self):
         task = get_object_or_404(Task, id=self.kwargs.get('pk'))
-        return Candidate.objects.filter(task=task).order_by('-user')
+        return Candidate.objects.filter(task=task).order_by('-worker')
 
 
 class CreateWorkerView(CreateView):
