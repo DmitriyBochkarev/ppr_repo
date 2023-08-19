@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from searchwork.models import Task
+from django.urls import reverse
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -13,7 +16,6 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 
-
         img = Image.open(self.image.path)
         # output_size = (480, 480)
         # img.thumbnail(output_size)
@@ -21,8 +23,6 @@ class Profile(models.Model):
         # cropped = img.crop(coordinates)
         #
         # cropped.save(self.image.path)
-
-
         def crop_center(img, crop_width: int, crop_height: int) -> Image:
             """
             Функция для обрезки изображения по центру.
@@ -44,3 +44,30 @@ class Profile(models.Model):
         img.thumbnail(output_size)
 
         img.save(self.image.path)
+
+
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.user.username} Client'
+
+
+class Worker(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+    experience = models.TextField()
+
+    def __str__(self):
+        return f'{self.user.username} Worker'
+
+class Candidate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('task-detail', kwargs={'pk': self.task.id})
+
+
+

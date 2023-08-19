@@ -1,18 +1,25 @@
-{% extends "searchwork/base_worker.html" %}
+{% extends "searchwork/base_client.html" %}
 {% block content %}
-    <h1 class="mb-3">Задачи пользователя {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+    <h1 class="mb-3">Мои задачи</h1>
     {% for task in tasks %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}">
           <div class="media-body">
                 <div class="article-metadata">
-                  <a class="mr-2" href="{% url 'user-tasks' task.author.username %}">{{ task.author }}</a>
+                  <a class="mr-2" href="{% url 'profile' %}">{{ task.author }}</a>
                   <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <h2><a class="article-title" href="{% url 'task-detail' task.id %}">{{ task.title }}</a></h2>
+                <h2><a class="article-title" href="{% url 'task-update' task.id %}">{{ task.title }}</a></h2>
                 <p class="article-content">{{ task.content }}</p>
                 <small class="text-danger">Статус задания: {{ task.status }}</small><br>
                 <small class="text-success">Исполнитель: {{ task.worker }}</small>
+          </div>
+            <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'task-update' task.id %}">Редактировать</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'task-delete' task.id %}">Удалить</a>
+          </div>
+          <div>
+            <a class="btn btn-info" href="{% url 'task-candidates' task.id %}">Отклики</a>
           </div>
         </article>
     {% endfor %}

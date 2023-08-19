@@ -1,30 +1,25 @@
-{% extends "searchwork/base_worker.html" %}
+{% extends "searchwork/base_client.html" %}
 {% block content %}
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {% for task in tasks %}
-        {% if task.author != user %}
+        {% for candidate in candidates %}
           <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
               <div class="card-header py-3">
 
-                  <a class="card-title pricing-card-title" href="{% url 'task-detail' task.id %}"><h6>Задание: {{ task.title }}</h6></a>
               </div>
               <div class="card-body">
 
                 <ul class="list-unstyled mt-3 mb-4">
                   <li>
-                      <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-                      <a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Заказчик: {{ task.author }}</a>
+                      <img class="rounded-circle article-img" src="{{ candidate.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                      <a class="mr-2" href="#">Кандидат: {{ candidate.user }}</a>
                   </li>
-                  <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
-                  <li>Статус: {{ task.status }}</li>
                 </ul>
 
               </div>
             </div>
           </div>
-        {% endif %}
         {% endfor %}
     </div>
 

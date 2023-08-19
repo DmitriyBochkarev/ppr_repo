@@ -1,6 +1,26 @@
 {% extends "searchwork/base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% block base %}
+<div  class="p-2 "></div>
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      {% if user.is_authenticated %}
+		<div>
+			<a class="btn btn-outline-info" href="{% url 'task-create' %}">Новое задание</a>
+			<a class="btn btn-outline-info" href="{% url 'my-tasks' user.username %}">Мои задания</a>
+		</div>
+<div>
+            <div class="input-group">
+                <a class="btn btn-info" href="{% url 'my-tasks' user.username %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'tasks-home' %}">Я исполнитель</a>
+      	    </div>
+		</div>
+
+      {% endif %}
+    </div>
+  </div>
+<div  class="p-2 shadow-sm"></div>
+<main class="container">
 	<div class="content-section">
 		<div class="media">
 			<img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -22,4 +42,5 @@
 			  </div>
 		</form>
 	</div>
-{% endblock content %}
+</main>
+{% endblock base %}
