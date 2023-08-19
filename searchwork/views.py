@@ -149,3 +149,6 @@ def client(request):
         return redirect('my-tasks', username= request.user.username)
     else:
         return render(request, 'users/client_create.html')
+
+def home(request):
+    return render(request, 'searchwork/about.html')

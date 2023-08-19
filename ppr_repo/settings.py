@@ -137,7 +137,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # CRISPY_TEMPLATE_PACK = 'uni_form'
 
 
-LOGIN_REDIRECT_URL = 'tasks-home'
+LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 

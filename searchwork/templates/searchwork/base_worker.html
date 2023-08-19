@@ -19,13 +19,7 @@
 <div  class="p-2 shadow-sm"></div>
 <div  class="p-2 "></div>
 <main class="container">
-{% if messages %}
-        	{% for message in messages %}
-          	<div class="alert alert-{{ message.tags }}">
-            	{{ message }}
-          	</div>
-        	{% endfor %}
-{% endif %}
+
 {% block content %}{% endblock %}
 {% endblock base %}
 </main>

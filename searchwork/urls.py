@@ -15,7 +15,8 @@ from .views import (
 from . import views
 
 urlpatterns = [
-    path('', TaskListView.as_view(), name='tasks-home'),
+    path('', views.home, name='home'),
+    path('task', TaskListView.as_view(), name='tasks-home'),
     path('worker', views.worker, name='worker'),
     path('client', views.client, name='client'),
 
