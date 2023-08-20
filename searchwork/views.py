@@ -179,6 +179,7 @@ class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         form.instance.worker = user
         form.instance.status = 'В процессе'
+        messages.success(self.request, 'Исполнитель назначен. Статус задачи изменен на "В процессе".')
         return super().form_valid(form)
 
     def test_func(self):
