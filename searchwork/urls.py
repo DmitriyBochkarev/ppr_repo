@@ -11,7 +11,9 @@ from .views import (
     MyTaskListView,
     CreateWorkerView,
     CreateClientView,
-    OfferListView
+    OfferListView,
+    WorkerProfileView,
+    WorkerToTaskView
 )
 from . import views
 
@@ -33,4 +35,7 @@ urlpatterns = [
     path('user/<str:username>/worker_create', CreateWorkerView.as_view(), name='worker-create'),
     path('user/<str:username>/client_create', CreateClientView.as_view(), name='client-create'),
     path('user/<str:username>/my_offers', OfferListView.as_view(), name='my-offers'),
+    path('worker/<int:pk>', WorkerProfileView.as_view(), name='worker-profile'),
+
+    path('task/<int:pk>/task_candidates/<int:pk1>/worker_to_task/', WorkerToTaskView.as_view(), name='worker-to-task'),
 ]

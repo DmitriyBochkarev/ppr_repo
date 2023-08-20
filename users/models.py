@@ -71,6 +71,9 @@ class Candidate(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.worker.user.username} Candidate'
+
     def get_absolute_url(self):
         return reverse('task-detail', kwargs={'pk': self.task.id})
 

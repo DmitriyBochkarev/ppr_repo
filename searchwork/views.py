@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 from .models import Task
 from django.contrib.auth.models import User
-from users.models import Candidate, Worker, Client
+from users.models import Candidate, Worker, Client, Profile
 from django.contrib import messages
 # from .forms import CreateWorkerView
 
@@ -163,3 +163,26 @@ class OfferListView(ListView):
     def get_queryset(self):
         worker=self.request.user.worker
         return Candidate.objects.filter(worker=worker).order_by('-task')
+
+
+class WorkerProfileView(DetailView):
+    model = Worker
+
+
+class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Task
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        user = User.objects.get(id=self.kwargs.get('pk1'))
+
+        form.instance.worker = user
+        form.instance.status = 'В процессе'
+        return super().form_valid(form)
+
+    def test_func(self):
+        task = self.get_object()
+        if self.request.user == task.author:
+            return True
+        return False
