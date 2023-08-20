@@ -152,3 +152,14 @@ def client(request):
 
 def home(request):
     return render(request, 'searchwork/about.html')
+
+
+class OfferListView(ListView):
+    model = Candidate
+    template_name = 'searchwork/my_offers.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'offers'
+    paginate_by = 10
+
+    def get_queryset(self):
+        worker=self.request.user.worker
+        return Candidate.objects.filter(worker=worker).order_by('-task')

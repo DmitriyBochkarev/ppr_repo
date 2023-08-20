@@ -3,6 +3,8 @@
 
 
         {% if tasks %}
+            <a class="btn btn-outline-info" href="{% url 'my-offers' user.username %}">Мои отклики</a>
+            <h1>Биржа проектов</h1>
             <h6>Задания, созданные вами не показаны в данном списке</h6>
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
                 {% for task in tasks %}

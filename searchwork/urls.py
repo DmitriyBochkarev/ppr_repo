@@ -10,7 +10,8 @@ from .views import (
     CandidateListView,
     MyTaskListView,
     CreateWorkerView,
-    CreateClientView
+    CreateClientView,
+    OfferListView
 )
 from . import views
 
@@ -31,4 +32,5 @@ urlpatterns = [
     path('user/<str:username>/tasks', MyTaskListView.as_view(), name='my-tasks'),
     path('user/<str:username>/worker_create', CreateWorkerView.as_view(), name='worker-create'),
     path('user/<str:username>/client_create', CreateClientView.as_view(), name='client-create'),
+    path('user/<str:username>/my_offers', OfferListView.as_view(), name='my-offers'),
 ]

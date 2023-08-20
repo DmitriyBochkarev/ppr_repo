@@ -1,0 +1,53 @@
+{% extends "searchwork/base_worker.html" %}
+{% block content %}
+
+    {% if offers %}
+    <h1 class="mb-3">Мои отклики</h1>
+    {% for offer in offers %}
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <article class="container mb-4">
+              <img class="rounded-circle article-img" src="{{ offer.task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+              <div class="media-body">
+                    <div class="article-metadata">
+                      <a class="mr-2" href="#">{{ offer.task.author }}</a>
+                      <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'task-detail' offer.task.id %}">{{ offer.task.title }}</a></h2>
+                    <p class="article-content">{{ offer.content }}</p>
+                    <small class="text-danger">Статус задания: {{ offer.task.status }}</small><br>
+                    <small class="text-success">Исполнитель: {{ offer.task.worker }}</small>
+              </div>
+
+            </article>
+        </div>
+    {% endfor %}
+{% else %}
+<h1>Вы пока не откликались на задания.</h1>
+
+        {% endif %}
+
+
+    <div class="pagination justify-content-center"> 
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4 mr-1" href="?page=1">Первая</a>
+        <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+      {% endif %}
+
+    {% endif %}
+  </div>
+{% endblock content %}
