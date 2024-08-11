@@ -129,7 +129,7 @@ class CreateWorkerView(CreateView):
 
 class CreateClientView(CreateView):
     model = Client
-    fields = []
+    fields = ['about']
 
     def form_valid(self, form):
         form.instance.user = self.request.user

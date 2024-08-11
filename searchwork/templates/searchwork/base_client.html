@@ -4,16 +4,15 @@
   <div class="container">
     <div class="d-flex justify-content-between">
       {% if user.is_authenticated %}
-        <div>
+        <form>
             <a class="btn btn-outline-info" href="{% url 'client' %}">Мои задания</a>
-        </div>
+        </form>
         <div>
             <div class="input-group">
                 <a class="btn btn-info" href="{% url 'client' %}">Я покупатель</a>
                 <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
       	    </div>
 		</div>
-
       {% endif %}
     </div>
 </div>
