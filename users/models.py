@@ -70,6 +70,7 @@ class Worker(models.Model):
 class Candidate(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    offer = models.TextField(null=True)
 
     def __str__(self):
         return f'{self.worker.user.username} Candidate'

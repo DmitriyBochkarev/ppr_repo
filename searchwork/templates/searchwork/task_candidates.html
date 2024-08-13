@@ -13,9 +13,12 @@
 
                     <ul class="list-unstyled mt-3 mb-4">
                       <li>
-                          <img class="rounded-circle article-img" src="{{ candidate.worker.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                          <img class="rounded-circle article-img" src="{{ candidate.worker.user.profile.image.url }}" width="100" height="100" alt="аватар исполнителя">
                           <a class="mr-2" href="{% url 'worker-profile' candidate.worker.id %}">Кандидат: {{ candidate }}</a>
                       </li>
+                        <div>
+                            <p class="text" > Сообщение от кандидата: {{ candidate.offer }}</p>
+                        </div>
                         <div>
                         <a class="btn btn-info" href="{% url 'worker-to-task' candidate.task.id candidate.worker.user.id %}">Назначить исполнителем</a>
                       </div>

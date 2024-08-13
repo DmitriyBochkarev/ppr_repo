@@ -90,7 +90,7 @@ class MyTaskListView(ListView):
 
 class CandidateCreateView(CreateView):
     model = Candidate
-    fields = []
+    fields = ['offer']
 
     def form_valid(self, form):
         if Candidate.objects.filter(task=self.kwargs.get('pk'), worker=self.request.user.worker):
