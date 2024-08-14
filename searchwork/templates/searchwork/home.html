@@ -19,9 +19,10 @@
                             <ul class="list-unstyled mt-3 mb-4">
                               <li>
                                   <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-                                  <a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Заказчик: {{ task.author }}</a>
                               </li>
+                                <li><a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Заказчик: {{ task.author }}</a></li>
                               <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
+                                <li><h3>{{ task.budget }} руб.</h3></li>
                               <li>Статус: {{ task.status }}</li>
                             </ul>
 

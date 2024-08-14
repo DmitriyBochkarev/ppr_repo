@@ -15,6 +15,7 @@
                     </div>
                     <h2><a class="article-title" href="{% url 'task-update' task.id %}">{{ task.title }}</a></h2>
                     <p class="article-content">{{ task.content }}</p>
+                  <h4 class="article-title">{{ task.budget }} руб.</h4>
                     <small class="text-danger">Статус задания: {{ task.status }}</small><br>
                     <small class="text-success">Исполнитель: {{ task.worker }}</small>
               </div>
