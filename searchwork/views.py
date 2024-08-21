@@ -29,7 +29,7 @@ class TaskDetailView(DetailView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['title', 'content', 'status', 'budget']
+    fields = ['title', 'content', 'status', 'budget', 'type', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -38,7 +38,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
-    fields = ['title', 'content', 'status', 'budget']
+    fields = ['title', 'content', 'status', 'budget', 'type', 'category']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

@@ -10,7 +10,19 @@ STATUS_CHOICES = (
     ('Выполнена', 'Выполнена'),
 )
 
-
+TYPE_CHOICES = (
+    ('Исполнительная документация', 'Исполнительная документация'),
+    ('Проектная/рабочая документация', 'Проектная/рабочая документация'),
+    ('ПОС', 'ПОС'),
+    ('ППР/ППРК', 'ППР/ППРК'),
+    ('Геодезия', 'Геодезия'),
+)
+CATEGORY_CHOICES = (
+    ('Земля', 'Земля'),
+    ('Канашка', 'Канашка'),
+    ('Вода', 'Вода'),
+    ('Электрика', 'Электрика'),
+)
 class Task(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -19,6 +31,8 @@ class Task(models.Model):
     worker = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="worker_user")
     status = models.CharField(max_length=200, choices=STATUS_CHOICES, default='Поиск исполнителя')
     budget = models.DecimalField(max_digits=18, decimal_places=2)
+    type = models.CharField(max_length=200, choices=TYPE_CHOICES, null=False)
+    category = models.CharField(max_length=200, choices=CATEGORY_CHOICES, null=False)
 
     def __str__(self):
         return self.title

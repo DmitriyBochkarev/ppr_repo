@@ -22,6 +22,8 @@
                               </li>
                                 <li><a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Заказчик: {{ task.author }}</a></li>
                               <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
+                                <p class="article-content">{{ task.type }}</p>
+                                <p class="article-content">{{ task.category }}</p>
                                 <li><h3>{{ task.budget }} руб.</h3></li>
                               <li>Статус: {{ task.status }}</li>
                             </ul>
