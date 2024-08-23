@@ -11,8 +11,6 @@ from .models import Task
 from django.contrib.auth.models import User
 from users.models import Candidate, Worker, Client, Profile
 from django.contrib import messages
-# from .forms import CreateWorkerView
-
 
 
 class TaskListView(ListView):
@@ -121,7 +119,6 @@ class CreateWorkerView(CreateView):
     fields = ['experience']
 
     def form_valid(self, form):
-
         form.instance.user = self.request.user
         messages.success(self.request, 'Вы зарегистрированы как исполнитель.')
         return super().form_valid(form)
@@ -136,6 +133,7 @@ class CreateClientView(CreateView):
         messages.success(self.request, 'Вы зарегистрированы как заказчик.')
         return super().form_valid(form)
 
+
 def worker(request):
     if Worker.objects.filter(user=request.user):
         return redirect('tasks-home')
@@ -146,9 +144,10 @@ def worker(request):
 def client(request):
     if Client.objects.filter(user=request.user):
 
-        return redirect('my-tasks', username= request.user.username)
+        return redirect('my-tasks', username=request.user.username)
     else:
         return render(request, 'users/client_create.html')
+
 
 def home(request):
     return render(request, 'searchwork/about.html')
@@ -161,7 +160,7 @@ class OfferListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        worker=self.request.user.worker
+        worker = self.request.user.worker
         return Candidate.objects.filter(worker=worker).order_by('-task')
 
 
@@ -187,3 +186,15 @@ class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == task.author:
             return True
         return False
+
+
+class TaskFilterView(ListView):
+    # Фильтрация задач по категориям. Пока фильтрует только одну категорию. Сделать форму фильтрации
+    model = Task
+    template_name = 'searchwork/filter_tasks.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'tasks'
+    paginate_by = 10
+
+    def get_queryset(self):
+        category = 'Земля'
+        return Task.objects.filter(category=category).order_by('-date_posted')

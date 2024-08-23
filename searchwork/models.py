@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-
 STATUS_CHOICES = (
     ('Поиск исполнителя', 'Поиск исполнителя'),
     ('В процессе', 'В процессе'),
@@ -23,6 +22,8 @@ CATEGORY_CHOICES = (
     ('Вода', 'Вода'),
     ('Электрика', 'Электрика'),
 )
+
+
 class Task(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -39,4 +40,3 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse('my-tasks', kwargs={'username': self.author.username})
-

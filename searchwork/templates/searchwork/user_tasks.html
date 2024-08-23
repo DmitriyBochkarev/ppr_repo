@@ -10,8 +10,8 @@
                   <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
                 </div>
                 <h2><a class="article-title" href="{% url 'task-detail' task.id %}">{{ task.title }}</a></h2>
-              <p class="article-content">{{ task.category }}</p>
-              <p class="article-content">{{ task.type }}</p>
+              <p class="input-group-text">Категория: {{ task.category }}</p>
+              <p class="input-group-text">Тип: {{ task.type }}</p>
               <h2>{{ task.budget }} руб.</h2>
 
                 <p class="article-content">{{ task.content }}</p>
