@@ -1,16 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+FormView
 )
 from .models import Task
 from django.contrib.auth.models import User
 from users.models import Candidate, Worker, Client, Profile
 from django.contrib import messages
+from . forms import FilterForm
+
 
 
 class TaskListView(ListView):
@@ -188,13 +191,46 @@ class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
 
-class TaskFilterView(ListView):
-    # Фильтрация задач по категориям. Пока фильтрует только одну категорию. Сделать форму фильтрации
-    model = Task
-    template_name = 'searchwork/filter_tasks.html'  # <app>/<model>_<viewtype>.html
-    context_object_name = 'tasks'
-    paginate_by = 10
+# class TaskFilterView(ListView):
+#     # Фильтрация задач по категориям. Пока фильтрует только одну категорию. Сделать форму фильтрации
+#     model = Task
+#     template_name = 'searchwork/filter_tasks.html'  # <app>/<model>_<viewtype>.html
+#     context_object_name = 'tasks'
+#     paginate_by = 10
+#
+#     def get_queryset(self):
+#         category = 'Земля'
+#         return Task.objects.filter(category=category).order_by('-date_posted')
+#
+# def filters(request):
+#     # Страница выбора фильтров
+#     return render(request, 'searchwork/filters.html')
+#
+# def filter_result(request):
+#     # Страница выбора фильтров
+#     return render(request, 'searchwork/filters.html')
 
-    def get_queryset(self):
-        category = 'Земля'
-        return Task.objects.filter(category=category).order_by('-date_posted')
+# class TaskFilterFormView(LoginRequiredMixin, ListView):
+#     model = Task
+#     fields = ['category']
+#
+#     def form_valid(self, form):
+#         category = form.cleaned_data.get('category')
+#
+#         messages.success(self.request, 'Отфильтровано".')
+#         return Task.objects.filter(category=category).order_by('-date_posted')
+
+
+def filter_view(request):
+    if request.method == 'POST':
+        form = FilterForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data.get('category')
+            return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category)})
+            # return redirect('tasks-home', category=category)
+            # return Task.objects.filter(category=category)
+    else:
+        form = FilterForm()
+
+    return render(request, 'searchwork/filter_form.html', {'form': form})
+
