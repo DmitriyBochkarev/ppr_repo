@@ -191,44 +191,29 @@ class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
 
-# class TaskFilterView(ListView):
-#     # Фильтрация задач по категориям. Пока фильтрует только одну категорию. Сделать форму фильтрации
-#     model = Task
-#     template_name = 'searchwork/filter_tasks.html'  # <app>/<model>_<viewtype>.html
-#     context_object_name = 'tasks'
-#     paginate_by = 10
-#
-#     def get_queryset(self):
-#         category = 'Земля'
-#         return Task.objects.filter(category=category).order_by('-date_posted')
-#
-# def filters(request):
-#     # Страница выбора фильтров
-#     return render(request, 'searchwork/filters.html')
-#
-# def filter_result(request):
-#     # Страница выбора фильтров
-#     return render(request, 'searchwork/filters.html')
-
-# class TaskFilterFormView(LoginRequiredMixin, ListView):
-#     model = Task
-#     fields = ['category']
-#
-#     def form_valid(self, form):
-#         category = form.cleaned_data.get('category')
-#
-#         messages.success(self.request, 'Отфильтровано".')
-#         return Task.objects.filter(category=category).order_by('-date_posted')
-
-
 def filter_view(request):
+    # функция для представления формы фильтров
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
+
             category = form.cleaned_data.get('category')
-            return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category)})
-            # return redirect('tasks-home', category=category)
-            # return Task.objects.filter(category=category)
+            type = form.cleaned_data.get('type')
+            if category == 'Любой' and type != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+                return render(request, 'searchwork/home.html',
+                              {'tasks': Task.objects.filter(type=type)})
+            elif type == 'Любой' and category != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+                return render(request, 'searchwork/home.html',
+                              {'tasks': Task.objects.filter(category=category)})
+            elif type == 'Любой' and category == 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.all()})
+            else:
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type)})
+
     else:
         form = FilterForm()
 

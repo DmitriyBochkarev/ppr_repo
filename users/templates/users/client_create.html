@@ -6,9 +6,10 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Станьте заказчиком и создавайте задания</legend>
-                <p>Опишите свои свои идеи и ожидания</p>
+                <p>Опишите свои идеи и ожидания</p>
                 {{ form|crispy }}
             </fieldset>
+            <br/>
             <div class="form-group">
                 <a class="btn btn-outline-info" href="{% url 'client-create' user.username %}" type="submit" >Стать заказчиком</a>
             </div>

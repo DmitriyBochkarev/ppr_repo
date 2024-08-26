@@ -9,6 +9,7 @@
                 <p>Опишите свой опыт и портфолио</p>
                 {{ form|crispy }}
             </fieldset>
+            <br/>
             <div class="form-group">
                 <a class="btn btn-outline-info" href="{% url 'worker-create' user.username %}" type="submit" >Стать исполнителем</a>
             </div>
