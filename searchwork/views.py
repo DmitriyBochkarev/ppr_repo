@@ -199,27 +199,28 @@ def filter_view(request):
 
             category = form.cleaned_data.get('category')
             type = form.cleaned_data.get('type')
-            budget = form.cleaned_data.get('budget')
+            budget_to = form.cleaned_data.get('budget_to')
+            budget_from = form.cleaned_data.get('budget_from')
             status = form.cleaned_data.get('status')
             if category == 'Любой' and type != 'Любой' and status != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
                 return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget).order_by('-date_posted')})
+                              {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
             elif type == 'Любой' and category != 'Любой' and status != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
                 return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget).order_by('-date_posted')})
+                              {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
             elif status == 'Любой' and category != 'Любой' and type != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
                 return render(request, 'searchwork/home.html',
                               {'tasks': Task.objects.filter(category=category, type=type,
-                                                            budget__lt=budget).order_by('-date_posted')})
+                                                            budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
             elif type == 'Любой' and category == 'Любой' and status == 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(budget__lt=budget).order_by('-date_posted')})
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
             else:
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget).order_by('-date_posted')})
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
 
     else:
         form = FilterForm()
