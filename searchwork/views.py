@@ -199,23 +199,33 @@ def filter_view(request):
 
             category = form.cleaned_data.get('category')
             type = form.cleaned_data.get('type')
-            if category == 'Любой' and type != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+            budget = form.cleaned_data.get('budget')
+            status = form.cleaned_data.get('status')
+            if category == 'Любой' and type != 'Любой' and status != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
                 return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(type=type)})
-            elif type == 'Любой' and category != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
+                              {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget).order_by('-date_posted')})
+            elif type == 'Любой' and category != 'Любой' and status != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
                 return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(category=category)})
-            elif type == 'Любой' and category == 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.all()})
+                              {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget).order_by('-date_posted')})
+            elif status == 'Любой' and category != 'Любой' and type != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                return render(request, 'searchwork/home.html',
+                              {'tasks': Task.objects.filter(category=category, type=type,
+                                                            budget__lt=budget).order_by('-date_posted')})
+            elif type == 'Любой' and category == 'Любой' and status == 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(budget__lt=budget).order_by('-date_posted')})
             else:
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", и с типом: "{type}"')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type)})
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом до: {budget} руб.')
+                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget).order_by('-date_posted')})
 
     else:
         form = FilterForm()
 
     return render(request, 'searchwork/filter_form.html', {'form': form})
 
+def order_view(request):
+    # функция для представления формы фильтров
+    return None

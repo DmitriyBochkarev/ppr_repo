@@ -17,8 +17,16 @@ TYPE_CHOICES = (
     ('Геодезия', 'Геодезия'),
 )
 
+STATUS_CHOICES = (
+    ('Любой', 'Любой'),
+    ('Поиск исполнителя', 'Поиск исполнителя'),
+    ('В процессе', 'В процессе'),
+    ('Выполнена', 'Выполнена'),
+)
 
 class FilterForm(forms.Form):
     # Форма фильтров
     category = forms.ChoiceField(choices=CATEGORY_CHOICES, required=False)
     type = forms.ChoiceField(choices=TYPE_CHOICES)
+    budget = forms.DecimalField(max_digits=18, decimal_places=2)
+    status = forms.ChoiceField(choices=STATUS_CHOICES, required=False)

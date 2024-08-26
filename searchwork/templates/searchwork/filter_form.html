@@ -1,11 +1,23 @@
 {% extends "searchwork/base_worker.html" %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
+    <div class="container">
+        <form class="container" method="POST">
             {% csrf_token %}
+            <legend class="border-bottom mb-4">Фильтры</legend>
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Фильтры</legend>
-                {{ form }}
+                <p>Категория: {{ form.category }}</p>
+            </fieldset>
+            <br/>
+            <fieldset class="form-group">
+                <p>Тип: {{ form.type }}</p>
+            </fieldset>
+            <br/>
+            <fieldset class="form-group">
+                <p>Бюджет до: {{ form.budget }} руб.</p>
+            </fieldset>
+            <br/>
+            <fieldset class="form-group">
+                <p>Статус: {{ form.status }}</p>
             </fieldset>
             <br/>
             <div class="form-group">
