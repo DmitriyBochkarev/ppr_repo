@@ -202,31 +202,335 @@ def filter_view(request):
             budget_to = form.cleaned_data.get('budget_to')
             budget_from = form.cleaned_data.get('budget_from')
             status = form.cleaned_data.get('status')
+            ordering_budget = form.cleaned_data.get('ordering_budget')
+            ordering_date = form.cleaned_data.get('ordering_date')
             if category == 'Любой' and type != 'Любой' and status != 'Любой':
-                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
-                return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                messages.success(request,
+                                 f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget', '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget', 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget', '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget', 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
+
             elif type == 'Любой' and category != 'Любой' and status != 'Любой':
                 messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
-                return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget', '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('budget', 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget', '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from).order_by('-budget', 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, status=status, budget__lt=budget_to, budget__gt=budget_from)})
             elif status == 'Любой' and category != 'Любой' and type != 'Любой':
                 messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
-                return render(request, 'searchwork/home.html',
-                              {'tasks': Task.objects.filter(category=category, type=type,
-                                                            budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
+
             elif type == 'Любой' and category == 'Любой' and status == 'Любой':
                 messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
+            elif type != 'Любой' and category == 'Любой' and status == 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(type=type, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
+            elif type == 'Любой' and category != 'Любой' and status == 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
+
+            elif type == 'Любой' and category == 'Любой' and status != 'Любой':
+                messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
             else:
                 messages.success(request, f'Отфильтрованы задачи с категорией: "{category}", с типом: "{type}", со статусом: "{status}", c бюджетом от: {budget_from} до: {budget_to} руб.')
-                return render(request, 'searchwork/home.html', {'tasks': Task.objects.filter(category=category, type=type, budget__lt=budget_to, budget__gt=budget_from).order_by('-date_posted')})
+                if ordering_budget == 'Нет' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-date_posted')})
+                elif ordering_budget == 'Нет' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('date_posted')})
+
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Нет':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По возрастанию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('budget',
+                                                                                                 'date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала новые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 '-date_posted')})
+                elif ordering_budget == 'По убыванию' and ordering_date == 'Сначала старые':
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from).order_by('-budget',
+                                                                                                 'date_posted')})
+                else:
+                    return render(request, 'searchwork/home.html',
+                                  {'tasks': Task.objects.filter(category=category, type=type, status=status, budget__lt=budget_to,
+                                                                budget__gt=budget_from)})
 
     else:
         form = FilterForm()
 
     return render(request, 'searchwork/filter_form.html', {'form': form})
-
-def order_view(request):
-    # функция для представления формы фильтров
-    return None

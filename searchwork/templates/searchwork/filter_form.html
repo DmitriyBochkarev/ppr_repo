@@ -13,11 +13,21 @@
             </fieldset>
             <br/>
             <fieldset class="form-group">
-                <p>Бюджет от: {{ form.budget_from }} руб. до: {{ form.budget_to }} руб.</p>
+                <p>Бюджет от: {{ form.budget_from }} до: {{ form.budget_to }} руб.</p>
             </fieldset>
             <br/>
             <fieldset class="form-group">
                 <p>Статус: {{ form.status }}</p>
+            </fieldset>
+            <br/>
+            <legend class="border-bottom mb-4">Упорядочить</legend>
+            <br/>
+            <fieldset class="form-group">
+                <p>По бюджету: {{ form.ordering_budget }}</p>
+            </fieldset>
+            <br/>
+            <fieldset class="form-group">
+                <p>По дате: {{ form.ordering_date }}</p>
             </fieldset>
             <br/>
             <div class="form-group">
