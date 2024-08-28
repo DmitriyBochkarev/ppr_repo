@@ -1,18 +1,66 @@
 {% extends "searchwork/base_worker.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-        {% if tasks %}
-<div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between">
             <a class="btn btn-outline-info" href="{% url 'my-offers' user.username %}">Мои отклики</a>
-<div>
+        <div>
             <a class="btn btn-outline-info" href="{% url 'filter-home' %}">Фильтровать и упорядочить</a>
 
-</div>
-</div>
+        </div>
+    </div>
+<br/>
+    <form method="get">
+        {% csrf_token %}
+        <span hidden>{{filter.form|crispy}}</span>
+        <legend for="sort_by">Сортировать по:</legend>
+        <select class="textinput form-control" name="sort_by" id="sort_by">
+            <option value="">Выберите</option>
+            <option value="budget">Бюджет по возрастанию</option>
+            <option value="-budget">Бюджет по убыванию</option>
+            <option value="date_posted">Дата сначала старые</option>
+            <option value="-date_posted">Дата сначала новые</option>
+        </select>
+        <br/>
+        <br/>
+        <legend class="border-bottom mb-4">Фильтры:</legend>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по бюджету</legend>
+            <div class="container">
+                <p>Больше чем: {{ filter.form.budget__gt }}</p>
+                <p>Меньше чем: {{ filter.form.budget__lt }}</p>
+            </div>
+        </fieldset>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по категории</legend>
+            <div class="container">
+                <p>Равно: {{ filter.form.category }}</p>
+                <p>Содержит: {{ filter.form.category__icontains }}</p>
+            </div>
+        </fieldset>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по типу</legend>
+            <div class="container">
+                <p>Равно: {{ filter.form.type }}</p>
+                <p>Содержит: {{ filter.form.type__icontains }}</p>
+            </div>
+        </fieldset>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по статусу</legend>
+            <div class="container">
+                <p>Равно: {{ filter.form.status }}</p>
+                <p>Содержит: {{ filter.form.status__icontains }}</p>
+            </div>
+        </fieldset>
+        <button class="btn btn-outline-info" type="submit">Фильтровать</button>
+        <a class="btn btn-outline-info" href="{% url 'worker' %}">Сбросить фильтры</a>
+    </form>
+{% if filter.qs%}
             <h1>Биржа проектов</h1>
             <h6>Задания, созданные вами не показаны в данном списке</h6>
 
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {% for task in tasks %}
+
+                {% for task in filter.qs %}
                     {% if task.author != user %}
                       <div class="col">
                         <div class="card mb-4 rounded-3 shadow-sm">
@@ -40,11 +88,9 @@
                 {% endfor %}
             </div>
         {% else %}
-            <h1>В системе пока не зарегистрировано ни одного задания.</h1>
-            <a class="btn btn-outline-info" href="{% url 'client' %}">Стать заказчиком</a>
+            <h2>Не найдено задач по заданным условиям.</h2>
 
         {% endif %}
-
 
     <div class="pagination justify-content-center">
         {% if is_paginated %}

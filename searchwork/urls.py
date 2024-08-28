@@ -13,7 +13,8 @@ from .views import (
     CreateClientView,
     OfferListView,
     WorkerProfileView,
-    WorkerToTaskView
+    WorkerToTaskView,
+TaskFilteredView
 )
 from . import views
 
@@ -22,7 +23,9 @@ urlpatterns = [
     path('task', TaskListView.as_view(), name='tasks-home'),
     path('worker', views.worker, name='worker'),
     path('client', views.client, name='client'),
-    path('filter_form', views.filter_view, name='filter-form'),
+    # path('filter_form', views.filter_view, name='filter-form'),
+    path('filter_home', TaskFilteredView.as_view(), name='filter-home'),
+
     path('task/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
     path('task/<int:pk>/create_candidate', CandidateCreateView.as_view(), name='candidate-create'),
     path('task/<int:pk>/task_candidates', CandidateListView.as_view(), name='task-candidates'),
