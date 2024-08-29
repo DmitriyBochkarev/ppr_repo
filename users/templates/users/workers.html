@@ -1,11 +1,11 @@
 {% extends "searchwork/base_client.html" %}
 {% block content %}
-        {% if workers %}
+{% if workers %}
 <div class="d-flex justify-content-between">
-<div>
+    <div>
             <a class="btn btn-outline-info" href="#">Фильтровать и упорядочить</a>
 
-</div>
+    </div>
 </div>
 <br/>
             <h1>Каталог исполнителей</h1>
@@ -21,8 +21,8 @@
                               <li>
                                   <img class="rounded-circle article-img" src="{{ worker.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
                               </li>
-                                <li><a class="mr-2" href="{% url 'worker-profile' worker.id %}">Заказчик: {{ worker.user.username }}</a></li>
-
+                                <li><a class="mr-2" href="{% url 'worker-profile' worker.id %}">Исполнитель: {{ worker.user.username }}</a></li>
+                                <h3>Рейтинг: {{ worker.rating }}</h3>
                             </ul>
 
                           </div>

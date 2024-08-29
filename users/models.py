@@ -58,7 +58,7 @@ class Client(models.Model):
 
 class Worker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.IntegerField(null=True)
+    rating = models.IntegerField(null=True, default=0)
     experience = models.TextField(null=True)
 
     def __str__(self):
