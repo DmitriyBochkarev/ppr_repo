@@ -7,13 +7,14 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Task
+from .models import Task, Comment
 from django.contrib.auth.models import User
 from users.models import Candidate, Worker, Client, Profile
 from django.contrib import messages
 # from . forms import FilterForm
 from .filters import TaskFilter
 from django_filters.views import FilterView
+from .forms import CommentForm
 
 
 class TaskListView(ListView):
@@ -26,7 +27,27 @@ class TaskListView(ListView):
 
 class TaskDetailView(DetailView):
     model = Task
+    # def get_queryset(self, pk):
+    #     task = Task.objects.get(pk=pk)
+    #     comments = task.comments.all()
+    #     return render(self.request, 'searchwork/task_detail.html', {'task': task, 'comments': comments})
 
+def comment(request, pk):
+    task = Task.objects.get(pk=pk)
+    comments = task.comments.all()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.author = request.user
+            comment.save()
+            return redirect('task-detail', pk=task.pk)
+    else:
+        form = CommentForm()
+
+    return render(request, 'searchwork/comment_form.html', {'task': task, 'comments': comments, 'form': form})
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task

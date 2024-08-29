@@ -40,3 +40,14 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse('my-tasks', kwargs={'username': self.author.username})
+
+
+
+class Comment(models.Model):
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{self.author} - {self.text}'

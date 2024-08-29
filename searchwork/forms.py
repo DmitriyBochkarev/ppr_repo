@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 # CATEGORY_CHOICES = (
 #     ('Любой', 'Любой'),
@@ -44,3 +45,9 @@ from django import forms
 #     status = forms.ChoiceField(choices=STATUS_CHOICES, required=False)
 #     ordering_budget = forms.ChoiceField(choices=ORDER_BUDGET_CHOICES, required=False)
 #     ordering_date = forms.ChoiceField(choices=ORDER_DATE_CHOICES, required=False)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
