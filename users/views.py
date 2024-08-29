@@ -10,6 +10,8 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Worker
+from .filters import WorkerFilter
+from django_filters.views import FilterView
 
 def register(request):
     if request.method == 'POST':
@@ -55,3 +57,19 @@ class WorkerListView(ListView):
     context_object_name = 'workers'
     # ordering = ['-date_posted']
     paginate_by = 10
+
+class WorkerFilteredView(FilterView):
+    model = Worker
+    filterset_class = WorkerFilter
+    template_name = 'users/filter_workers.html'  # Укажите ваш шаблон
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Применяем сортировку, если указано
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+            messages.success(self.request,
+                         f'Отсортировано по {sort_by}')
+
+        return queryset

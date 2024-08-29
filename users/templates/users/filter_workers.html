@@ -1,6 +1,6 @@
 {% extends "searchwork/base_client.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-{% if workers %}
 <div class="d-flex justify-content-between">
     <div>
             <a class="btn btn-outline-info" href="{% url 'filter-workers' %}">Фильтровать и упорядочить</a>
@@ -8,10 +8,37 @@
     </div>
 </div>
 <br/>
+
+<form method="get">
+        {% csrf_token %}
+        <span hidden>{{filter.form|crispy}}</span>
+        <legend for="sort_by">Сортировать по:</legend>
+        <select class="textinput form-control" name="sort_by" id="sort_by">
+            <option value="">Выберите</option>
+            <option value="rating">Рейтинг по возрастанию</option>
+            <option value="-rating">Рейтинг по убыванию</option>
+        </select>
+        <br/>
+        <br/>
+        <legend class="border-bottom mb-4">Фильтры:</legend>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по рейтингу</legend>
+            <div class="container">
+                <p>Больше чем: {{ filter.form.rating__gt }}</p>
+                <p>Меньше чем: {{ filter.form.rating__lt }}</p>
+            </div>
+        </fieldset>
+
+        <button class="btn btn-outline-info" type="submit">Фильтровать</button>
+        <a class="btn btn-outline-info" href="{% url 'workers' %}">Сбросить фильтры</a>
+    </form>
+<br/>
+
+{% if filter.qs%}
             <h1>Каталог исполнителей</h1>
 
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {% for worker in workers %}
+                {% for worker in filter.qs %}
                       <div class="col">
                         <div class="card mb-4 rounded-3 shadow-sm">
 
