@@ -14,14 +14,13 @@
                       <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
                     </div>
                     <h2><a class="article-title" href="{% url 'task-update' task.id %}">{{ task.title }}</a></h2>
-                  <p class="input-group-text">Тип: {{ task.type }}</p>
-                  <div>
-                    <p class="input-group-text">Категория: {{ task.category }}</p>
-                  </div>
+
                   <p class="article-content">{{ task.content }}</p>
                   <h4 class="article-title">{{ task.budget }} руб.</h4>
                     <small class="text-danger">Статус задания: {{ task.status }}</small><br>
                     <small class="text-success">Исполнитель: {{ task.worker }}</small>
+                  <p class="input-group-text">Тип: {{ task.type }}</p>
+                  <p class="input-group-text">Категория: {{ task.category }}</p>
               </div>
               <div>
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'task-update' task.id %}">Редактировать</a>

@@ -14,7 +14,7 @@ from .views import (
     OfferListView,
     WorkerProfileView,
     WorkerToTaskView,
-TaskFilteredView
+    TaskFilteredView
 )
 from . import views
 

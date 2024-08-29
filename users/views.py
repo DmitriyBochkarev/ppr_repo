@@ -2,7 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+from .models import Worker
 
 def register(request):
     if request.method == 'POST':
@@ -41,3 +48,10 @@ def profile(request):
 
     return render(request, 'users/profile.html', context)
 
+
+class WorkerListView(ListView):
+    model = Worker
+    template_name = 'users/workers.html'
+    context_object_name = 'workers'
+    # ordering = ['-date_posted']
+    paginate_by = 10

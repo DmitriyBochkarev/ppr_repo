@@ -5,14 +5,13 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView,
-FormView
+    DeleteView
 )
 from .models import Task
 from django.contrib.auth.models import User
 from users.models import Candidate, Worker, Client, Profile
 from django.contrib import messages
-from . forms import FilterForm
+# from . forms import FilterForm
 from .filters import TaskFilter
 from django_filters.views import FilterView
 
@@ -552,3 +551,5 @@ class TaskFilteredView(FilterView):
                          f'Отсортировано по {sort_by}')
 
         return queryset
+
+

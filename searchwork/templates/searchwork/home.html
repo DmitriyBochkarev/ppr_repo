@@ -8,6 +8,7 @@
 
 </div>
 </div>
+<br/>
             <h1>Биржа проектов</h1>
             <h6>Задания, созданные вами не показаны в данном списке</h6>
 
@@ -27,10 +28,11 @@
                               </li>
                                 <li><a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Заказчик: {{ task.author }}</a></li>
                               <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
-                                <p class="input-group-text">Тип: {{ task.type }}</p>
-                                <p class="input-group-text">Категория: {{ task.category }}</p>
+
                                 <li><h3>{{ task.budget }} руб.</h3></li>
                               <li>Статус: {{ task.status }}</li>
+                                <p class="input-group-text">Тип: {{ task.type }}</p>
+                                <p class="input-group-text">Категория: {{ task.category }}</p>
                             </ul>
 
                           </div>
