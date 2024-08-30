@@ -14,19 +14,25 @@ from .views import (
     OfferListView,
     WorkerProfileView,
     WorkerToTaskView,
-    TaskFilteredView
+    TaskFilteredView,
+TaskClientListView,
+TaskClientFilteredView,
+TaskDetailClientView
 )
 from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('task', TaskListView.as_view(), name='tasks-home'),
+path('task_client', TaskClientListView.as_view(), name='tasks-home-client'),
     path('worker', views.worker, name='worker'),
     path('client', views.client, name='client'),
     # path('filter_form', views.filter_view, name='filter-form'),
     path('filter_home', TaskFilteredView.as_view(), name='filter-home'),
-path('task/<int:pk>/comment_form', views.comment, name='comment-form'),
+path('filter_home_client', TaskClientFilteredView.as_view(), name='filter-home-client'),
+    path('task/<int:pk>/comment_form', views.comment, name='comment-form'),
     path('task/<int:pk>/task_detail', TaskDetailView.as_view(), name='task-detail'),
+path('task/<int:pk>/task_detail_client', TaskDetailClientView.as_view(), name='task-detail-client'),
     path('task/<int:pk>/create_candidate', CandidateCreateView.as_view(), name='candidate-create'),
     path('task/<int:pk>/task_candidates', CandidateListView.as_view(), name='task-candidates'),
     path('task/new/', TaskCreateView.as_view(), name='task-create'),

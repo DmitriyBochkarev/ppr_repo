@@ -25,12 +25,24 @@ class TaskListView(ListView):
     paginate_by = 10
 
 
+class TaskClientListView(ListView):
+    model = Task
+    template_name = 'searchwork/home_client.html'
+    context_object_name = 'tasks'
+    ordering = ['-date_posted']
+    paginate_by = 10
+
+
 class TaskDetailView(DetailView):
     model = Task
     # def get_queryset(self, pk):
     #     task = Task.objects.get(pk=pk)
     #     comments = task.comments.all()
     #     return render(self.request, 'searchwork/task_detail.html', {'task': task, 'comments': comments})
+class TaskDetailClientView(DetailView):
+    model = Task
+    template_name = 'searchwork/task_detail_client.html'
+
 
 def comment(request, pk):
     task = Task.objects.get(pk=pk)
@@ -573,4 +585,18 @@ class TaskFilteredView(FilterView):
 
         return queryset
 
+class TaskClientFilteredView(FilterView):
+    model = Task
+    filterset_class = TaskFilter
+    template_name = 'searchwork/filter_home_client.html'  # Укажите ваш шаблон
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Применяем сортировку, если указано
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+            messages.success(self.request,
+                         f'Отсортировано по {sort_by}')
+
+        return queryset
