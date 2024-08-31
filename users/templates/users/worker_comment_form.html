@@ -1,0 +1,47 @@
+{% extends "searchwork/base_client.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card mb-4 rounded-3 shadow-sm">
+  <article class="container mb-4">
+    <img class="rounded-circle article-img" src="{{ worker.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+    <div class="media-body">
+      <div class="article-metadata">
+        <p class="mr-2">Исполнитель: {{ worker }}</p>
+      </div>
+      <h3>Рейтинг: {{ worker.rating }}</h3>
+      <p class="mr-2">Опыт работы: {{ worker.experience }}</p>
+    </div>
+  </article>
+</div>
+<h2>Комментарии</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <br/>
+    <button class="btn btn-info" type="submit">Добавить комментарий</button>
+</form>
+<br/>
+<ul>
+    {% for worker_comment in worker_comments %}
+    <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-header py-3">
+                              <a class="card-title pricing-card-title" href="#"><h6>{{ worker_comment.author }}</h6></a>
+
+                                  <img class="rounded-circle article-img" src="{{ worker_comment.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+
+                          </div>
+                          <div class="card-body">
+
+                            <ul class="list-unstyled mt-3 mb-4">
+
+                                <li><a class="mr-2" href="#">Комментарий: {{ worker_comment.text }}</a></li>
+
+                            </ul>
+
+                          </div>
+                        </div>
+                      </div>
+    {% endfor %}
+</ul>
+{% endblock content %}

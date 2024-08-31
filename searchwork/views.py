@@ -15,6 +15,7 @@ from django.contrib import messages
 from .filters import TaskFilter
 from django_filters.views import FilterView
 from .forms import CommentForm
+from users.forms import WorkerCommentForm
 
 
 class TaskListView(ListView):
@@ -55,11 +56,46 @@ def comment(request, pk):
             comment.task = task
             comment.author = request.user
             comment.save()
-            return redirect('task-detail', pk=task.pk)
+            return redirect('comment-form', pk=task.pk)
     else:
         form = CommentForm()
 
     return render(request, 'searchwork/comment_form.html', {'task': task, 'comments': comments, 'form': form})
+
+
+def comment_client(request, pk):
+    task = Task.objects.get(pk=pk)
+    comments = task.comments.all()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.author = request.user
+            comment.save()
+            return redirect('comment-form-client', pk=task.pk)
+    else:
+        form = CommentForm()
+
+    return render(request, 'searchwork/comment_form_client.html', {'task': task, 'comments': comments, 'form': form})
+
+def worker_comment_form(request, pk):
+    worker = Worker.objects.get(pk=pk)
+    worker_comments = worker.worker_comments.all()
+
+    if request.method == 'POST':
+        form = WorkerCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.worker = worker
+            comment.author = request.user
+            comment.save()
+            return redirect('worker-comment-form', pk=worker.pk)
+    else:
+        form = WorkerCommentForm()
+
+    return render(request, 'users/worker_comment_form.html', {'worker': worker, 'worker_comments': worker_comments, 'form': form})
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
@@ -110,7 +146,15 @@ class UserTaskListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Task.objects.filter(author=user).order_by('-date_posted')
 
+class UserTaskClientListView(ListView):
+    model = Task
+    template_name = 'searchwork/user_tasks_client.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'tasks'
+    paginate_by = 10
 
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Task.objects.filter(author=user).order_by('-date_posted')
 class MyTaskListView(ListView):
     model = Task
     template_name = 'searchwork/my_tasks.html'  # <app>/<model>_<viewtype>.html
@@ -201,7 +245,9 @@ class OfferListView(ListView):
 
 
 class WorkerProfileView(DetailView):
+    """template worker_detail"""
     model = Worker
+
 
 
 class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

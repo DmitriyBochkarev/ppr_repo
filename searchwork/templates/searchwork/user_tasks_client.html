@@ -1,4 +1,4 @@
-{% extends "searchwork/base_worker.html" %}
+{% extends "searchwork/base_client.html" %}
 {% block content %}
     <h1 class="mb-3">Задачи пользователя {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for task in tasks %}
@@ -7,10 +7,10 @@
           <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
           <div class="media-body">
                 <div class="article-metadata">
-                  <a class="mr-2" href="{% url 'user-tasks' task.author.username %}">{{ task.author }}</a>
+                  <a class="mr-2" href="{% url 'user-tasks-client' task.author.username %}">{{ task.author }}</a>
                   <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <h2><a class="article-title" href="{% url 'task-detail' task.id %}">{{ task.title }}</a></h2>
+                <h2><a class="article-title" href="{% url 'task-detail-client' task.id %}">{{ task.title }}</a></h2>
               <p class="input-group-text">Категория: {{ task.category }}</p>
               <p class="input-group-text">Тип: {{ task.type }}</p>
               <h2>{{ task.budget }} руб.</h2>

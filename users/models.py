@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 from searchwork.models import Task
 from django.urls import reverse
+from django.utils import timezone
 
 
 class Profile(models.Model):
@@ -78,5 +79,12 @@ class Candidate(models.Model):
     def get_absolute_url(self):
         return reverse('task-detail', kwargs={'pk': self.task.id})
 
+class WorkerComment(models.Model):
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='worker_comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return f'{self.author} - {self.text}'
 

@@ -5,7 +5,7 @@
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-tasks' object.author.username %}">{{ object.author }}</a>
+        <a class="mr-2" href="{% url 'user-tasks-client' object.author.username %}">{{ object.author }}</a>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 
       </div>
@@ -20,6 +20,6 @@
     </div>
   </article>
       </div>
-<a class="mr-2" href="{% url 'comment-form' task.id %}">Комментарии</a>
+<a class="mr-2" href="{% url 'comment-form-client' task.id %}"><h2>Развернуть комментарии</h2></a>
 
 {% endblock content %}
