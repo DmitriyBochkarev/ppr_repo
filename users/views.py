@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, MessageForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -86,12 +86,19 @@ def chat_view(request, user_id):
             )
             chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
             if request.method == 'POST':
-                content = request.POST['content']
-                Message.objects.create(conversation=conversation, sender=request.user, content=content)
+                form = MessageForm(request.POST)
+                if form.is_valid():
+                    chat_messages = form.save(commit=False)
+                    chat_messages.conversation = conversation
+                    chat_messages.sender = request.user
+                    chat_messages.save()
+                    return redirect('chat', user_id=user_id)
             else:
-                Message.objects.filter(conversation=conversation).order_by('-timestamp')
+                form = MessageForm()
 
-            return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+            return render(request, 'users/chat.html',
+                          {'chat_messages': chat_messages, 'other_user': other_user, 'form': form})
+
         elif Conversation.objects.filter(user2=other_user, user1=request.user):
             conversation, created = Conversation.objects.get_or_create(
                 user1=request.user,
@@ -99,12 +106,18 @@ def chat_view(request, user_id):
             )
             chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
             if request.method == 'POST':
-                content = request.POST['content']
-                Message.objects.create(conversation=conversation, sender=request.user, content=content)
+                form = MessageForm(request.POST)
+                if form.is_valid():
+                    chat_messages = form.save(commit=False)
+                    chat_messages.conversation = conversation
+                    chat_messages.sender = request.user
+                    chat_messages.save()
+                    return redirect('chat', user_id=user_id)
             else:
-                Message.objects.filter(conversation=conversation).order_by('-timestamp')
+                form = MessageForm()
 
-            return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+            return render(request, 'users/chat.html',
+                          {'chat_messages': chat_messages, 'other_user': other_user, 'form': form})
 
 
 
@@ -116,12 +129,17 @@ def chat_view(request, user_id):
         chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
 
         if request.method == 'POST':
-            content = request.POST['content']
-            Message.objects.create(conversation=conversation, sender=request.user, content=content)
+            form = MessageForm(request.POST)
+            if form.is_valid():
+                chat_messages = form.save(commit=False)
+                chat_messages.conversation = conversation
+                chat_messages.sender = request.user
+                chat_messages.save()
+                return redirect('chat', user_id=user_id)
         else:
-            Message.objects.filter(conversation=conversation).order_by('-timestamp')
+            form = MessageForm()
 
-        return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
-
+        return render(request, 'users/chat.html',
+                      {'chat_messages': chat_messages, 'other_user': other_user, 'form': form})
 
 
