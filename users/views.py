@@ -78,14 +78,50 @@ class WorkerFilteredView(FilterView):
 @login_required
 def chat_view(request, user_id):
     other_user = get_object_or_404(User, id=user_id)
-    conversation, created = Conversation.objects.get_or_create(
-        user1=request.user,
-        user2=other_user
-    )
-    chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+    if Conversation.objects.filter(user1=other_user, user2=request.user) or Conversation.objects.filter(user2=other_user, user1=request.user):
+        if Conversation.objects.filter(user1=other_user, user2=request.user):
+            conversation, created = Conversation.objects.get_or_create(
+            user2=request.user,
+            user1=other_user
+            )
+            chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+            if request.method == 'POST':
+                content = request.POST['content']
+                Message.objects.create(conversation=conversation, sender=request.user, content=content)
+            else:
+                Message.objects.filter(conversation=conversation).order_by('-timestamp')
 
-    if request.method == 'POST':
-        content = request.POST['content']
-        Message.objects.create(conversation=conversation, sender=request.user, content=content)
+            return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+        elif Conversation.objects.filter(user2=other_user, user1=request.user):
+            conversation, created = Conversation.objects.get_or_create(
+                user1=request.user,
+                user2=other_user
+            )
+            chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+            if request.method == 'POST':
+                content = request.POST['content']
+                Message.objects.create(conversation=conversation, sender=request.user, content=content)
+            else:
+                Message.objects.filter(conversation=conversation).order_by('-timestamp')
 
-    return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+            return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+
+
+
+    else:
+        conversation, created = Conversation.objects.get_or_create(
+            user1=request.user,
+            user2=other_user
+        )
+        chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+
+        if request.method == 'POST':
+            content = request.POST['content']
+            Message.objects.create(conversation=conversation, sender=request.user, content=content)
+        else:
+            Message.objects.filter(conversation=conversation).order_by('-timestamp')
+
+        return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
+
+
+
