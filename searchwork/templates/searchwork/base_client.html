@@ -6,11 +6,9 @@
       {% if user.is_authenticated %}
         <form>
             <a class="btn btn-outline-info" href="{% url 'client' %}">Мои задания</a>
-        </form>
-        <form>
+
             <a class="btn btn-outline-info" href="{% url 'workers' %}">Исполнители</a>
-        </form>
-        <form>
+
             <a class="btn btn-outline-info" href="{% url 'tasks-home-client' %}">Все задания</a>
         </form>
         <div>
