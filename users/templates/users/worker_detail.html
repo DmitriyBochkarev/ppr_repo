@@ -9,6 +9,7 @@
       </div>
       <h3>Рейтинг: {{ worker.rating }}</h3>
       <p class="mr-2">Опыт работы: {{ worker.experience }}</p>
+      <a class="mr-2" href="{% url 'chat' worker.user.id %}">Написать пользователю</a>
     </div>
   </article>
 </div>

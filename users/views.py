@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -9,7 +9,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Worker
+from .models import Worker, Conversation, Message, User
 from .filters import WorkerFilter
 from django_filters.views import FilterView
 
@@ -73,3 +73,19 @@ class WorkerFilteredView(FilterView):
                          f'Отсортировано по {sort_by}')
 
         return queryset
+
+
+@login_required
+def chat_view(request, user_id):
+    other_user = get_object_or_404(User, id=user_id)
+    conversation, created = Conversation.objects.get_or_create(
+        user1=request.user,
+        user2=other_user
+    )
+    chat_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+
+    if request.method == 'POST':
+        content = request.POST['content']
+        Message.objects.create(conversation=conversation, sender=request.user, content=content)
+
+    return render(request, 'users/chat.html', {'chat_messages': chat_messages, 'other_user': other_user})
