@@ -6,13 +6,16 @@
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-        <br/>
+
         <button class="btn btn-info" type="submit">Отправить</button>
     </form>
-    <div id="chat_messages">
+<br/>
+    <div class="card mb-4 rounded-3 shadow-sm" id="chat_messages">
+        <div class="card-header py-3">
         {% for chat_message in chat_messages %}
             <p><strong>{{ chat_message.sender.username }}</strong>: {{ chat_message.content }}</p>
         {% endfor %}
+        </div>
     </div>
 
 {% endblock content %}
