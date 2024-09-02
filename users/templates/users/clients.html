@@ -1,48 +1,37 @@
-{% extends "searchwork/base_client.html" %}
+{% extends "searchwork/base_worker.html" %}
 {% block content %}
-        {% if tasks %}
+{% if clients %}
 <div class="d-flex justify-content-between">
-            <a class="btn btn-outline-info" href="{% url 'task-create' %}">Создать новое задание</a>
-<div>
-            <a class="btn btn-outline-info" href="{% url 'filter-home-client' %}">Фильтровать и упорядочить</a>
+    <div>
+            <a class="btn btn-outline-info" href="{% url 'filter-clients' %}">Фильтровать и упорядочить</a>
 
-</div>
+    </div>
 </div>
 <br/>
-            <h1>Биржа проектов</h1>
-            <h6>Задания, созданные вами не показаны в данном списке</h6>
+            <h1>Каталог заказчиков</h1>
 
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {% for task in tasks %}
-                    {% if task.author != user %}
+                {% for client in clients %}
                       <div class="col">
                         <div class="card mb-4 rounded-3 shadow-sm">
-                          <div class="card-header py-3">
-                              <a class="card-title pricing-card-title" href="{% url 'task-detail-client' task.id %}"><h6>Задание: {{ task.title }}</h6></a>
-                          </div>
+
                           <div class="card-body">
 
                             <ul class="list-unstyled mt-3 mb-4">
                               <li>
-                                  <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                                  <img class="rounded-circle article-img" src="{{ client.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
                               </li>
-                                <li><a class="mr-2" href="{% url 'user-tasks-client' task.author.username %}">Все задачи заказчика: {{ task.author }}</a></li>
-                              <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
-
-                                <li><h3>{{ task.budget }} руб.</h3></li>
-                              <li>Статус: {{ task.status }}</li>
-                                <p class="input-group-text">Тип: {{ task.type }}</p>
-                                <p class="input-group-text">Категория: {{ task.category }}</p>
+                                <li><a class="mr-2" href="{% url 'client-profile' client.id %}">Заказчик: {{ client.user.username }}</a></li>
+                                <h3>Рейтинг: {{ client.rating }}</h3>
                             </ul>
 
                           </div>
                         </div>
                       </div>
-                    {% endif %}
                 {% endfor %}
             </div>
         {% else %}
-            <h1>В системе пока не зарегистрировано ни одного задания.</h1>
+            <h1>Не найдено ни одного заказчика.</h1>
             <a class="btn btn-outline-info" href="{% url 'client' %}">Стать заказчиком</a>
 
         {% endif %}

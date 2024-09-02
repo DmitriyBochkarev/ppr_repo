@@ -9,8 +9,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Worker, Conversation, Message, User
-from .filters import WorkerFilter
+from .models import Worker, Conversation, Message, User, Client
+from .filters import WorkerFilter, ClientFilter
 from django_filters.views import FilterView
 
 def register(request):
@@ -74,6 +74,29 @@ class WorkerFilteredView(FilterView):
 
         return queryset
 
+
+class ClientListView(ListView):
+    model = Client
+    template_name = 'users/clients.html'
+    context_object_name = 'clients'
+    # ordering = ['-date_posted']
+    paginate_by = 10
+
+class ClientFilteredView(FilterView):
+    model = Client
+    filterset_class = ClientFilter
+    template_name = 'users/filter_clients.html'  # Укажите ваш шаблон
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Применяем сортировку, если указано
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
+            messages.success(self.request,
+                         f'Отсортировано по {sort_by}')
+
+        return queryset
 
 @login_required
 def chat_view(request, user_id):

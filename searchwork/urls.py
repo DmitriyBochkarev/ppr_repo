@@ -19,6 +19,7 @@ TaskClientListView,
 TaskClientFilteredView,
 TaskDetailClientView,
 UserTaskClientListView,
+ClientProfileView
 )
 from . import views
 
@@ -48,6 +49,8 @@ urlpatterns = [
     path('user/<str:username>/client_create', CreateClientView.as_view(), name='client-create'),
     path('user/<str:username>/my_offers', OfferListView.as_view(), name='my-offers'),
     path('worker/<int:pk>', WorkerProfileView.as_view(), name='worker-profile'),
+path('client/<int:pk>', ClientProfileView.as_view(), name='client-profile'),
     path('worker/<int:pk>/worker_comment_form', views.worker_comment_form, name='worker-comment-form'),
+path('client/<int:pk>/client_comment_form', views.client_comment_form, name='client-comment-form'),
     path('task/<int:pk>/task_candidates/<int:pk1>/worker_to_task/', WorkerToTaskView.as_view(), name='worker-to-task'),
 ]

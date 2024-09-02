@@ -1,0 +1,90 @@
+{% extends "searchwork/base_worker.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="d-flex justify-content-between">
+    <div>
+            <a class="btn btn-outline-info" href="{% url 'filter-clients' %}">Фильтровать и упорядочить</a>
+
+    </div>
+</div>
+<br/>
+
+<form method="get">
+        {% csrf_token %}
+        <span hidden>{{filter.form|crispy}}</span>
+        <legend for="sort_by">Сортировать по:</legend>
+        <select class="textinput form-control" name="sort_by" id="sort_by">
+            <option value="">Выберите</option>
+            <option value="rating">Рейтинг по возрастанию</option>
+            <option value="-rating">Рейтинг по убыванию</option>
+        </select>
+        <br/>
+        <br/>
+        <legend class="border-bottom mb-4">Фильтры:</legend>
+        <fieldset class="card mb-4 rounded-3 shadow-sm">
+            <legend class="container">Фильтровать по рейтингу</legend>
+            <div class="container">
+                <p>Больше чем: {{ filter.form.rating__gt }}</p>
+                <p>Меньше чем: {{ filter.form.rating__lt }}</p>
+            </div>
+        </fieldset>
+
+        <button class="btn btn-outline-info" type="submit">Фильтровать</button>
+        <a class="btn btn-outline-info" href="{% url 'clients' %}">Сбросить фильтры</a>
+    </form>
+<br/>
+
+{% if filter.qs%}
+            <h1>Каталог заказчиков</h1>
+
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                {% for clients in filter.qs %}
+                      <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+
+                          <div class="card-body">
+
+                            <ul class="list-unstyled mt-3 mb-4">
+                              <li>
+                                  <img class="rounded-circle article-img" src="{{ client.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                              </li>
+                                <li><a class="mr-2" href="{% url 'client-profile' client.id %}">Заказчик: {{ client.user.username }}</a></li>
+                                <h3>Рейтинг: {{ client.rating }}</h3>
+                            </ul>
+
+                          </div>
+                        </div>
+                      </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>Не найдено ни одного заказчика.</h1>
+
+        {% endif %}
+
+
+    <div class="pagination justify-content-center">
+        {% if is_paginated %}
+
+          {% if page_obj.has_previous %}
+
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page=1">Первая</a>
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+          {% endif %}
+
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -15,7 +15,7 @@ from django.contrib import messages
 from .filters import TaskFilter
 from django_filters.views import FilterView
 from .forms import CommentForm
-from users.forms import WorkerCommentForm
+from users.forms import WorkerCommentForm, ClientCommentForm
 
 
 class TaskListView(ListView):
@@ -96,6 +96,24 @@ def worker_comment_form(request, pk):
         form = WorkerCommentForm()
 
     return render(request, 'users/worker_comment_form.html', {'worker': worker, 'worker_comments': worker_comments, 'form': form})
+
+def client_comment_form(request, pk):
+    client = Client.objects.get(pk=pk)
+    client_comments = client.client_comments.all()
+
+    if request.method == 'POST':
+        form = ClientCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.client = client
+            comment.author = request.user
+            comment.save()
+            return redirect('client-comment-form', pk=client.pk)
+    else:
+        form = ClientCommentForm()
+
+    return render(request, 'users/client_comment_form.html', {'client': client, 'client_comments': client_comments, 'form': form})
+
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
@@ -248,7 +266,9 @@ class WorkerProfileView(DetailView):
     """template worker_detail"""
     model = Worker
 
-
+class ClientProfileView(DetailView):
+    """template client_detail"""
+    model = Client
 
 class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
