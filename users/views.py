@@ -142,4 +142,11 @@ def chat_view(request, user_id):
         return render(request, 'users/chat.html',
                       {'chat_messages': chat_messages, 'other_user': other_user, 'form': form})
 
-
+def chats(request):
+    instance = request.user
+    conversations = Conversation.objects.filter(user1=instance)
+    conversations2 = Conversation.objects.filter(user2=instance)
+    return render(request, 'users/my_chats.html', {
+        'conversations': conversations,
+        'conversations2': conversations2
+    })

@@ -12,6 +12,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('workers', WorkerListView.as_view(), name='workers'),
     path('chat/<int:user_id>/', user_views.chat_view, name='chat'),
+path('chats', user_views.chats, name='chats'),
+# path('<str:username>/chats', ChatListView.as_view(), name='my-chats'),
 path('filter_workers', WorkerFilteredView.as_view(), name='filter-workers'),
 
 ]
