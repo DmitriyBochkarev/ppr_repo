@@ -13,7 +13,34 @@
     <div class="card mb-4 rounded-3 shadow-sm" id="chat_messages">
         <div class="card-header py-3">
         {% for chat_message in chat_messages %}
-            <p><strong>{{ chat_message.sender.username }}</strong>: {{ chat_message.content }}</p>
+            {% if request.user == chat_message.sender %}
+            <div class="d-flex justify-content-between">
+                <div>
+                <img class="rounded-circle article-img" src="{{ chat_message.sender.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                <a class="card-title pricing-card-title" href="#">{{ chat_message.sender.username }}</a>
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-body">
+                               <p class="mr-2">{{ chat_message.content }}</p>
+                          </div>
+                        </div>
+                </div>
+                <h2></h2>
+            </div>
+            {% else %}
+            <div class="d-flex justify-content-between">
+                <h2></h2>
+                <div>
+                <img class="rounded-circle article-img" src="{{ chat_message.sender.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                <a class="card-title pricing-card-title" href="#">{{ chat_message.sender.username }}</a>
+
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-body">
+                               <p class="mr-2">{{ chat_message.content }}</p>
+                          </div>
+                        </div>
+                </div>
+            </div>
+            {% endif %}
         {% endfor %}
         </div>
     </div>
