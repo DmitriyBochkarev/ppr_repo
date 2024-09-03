@@ -25,6 +25,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('instruction', views.instruction, name='instruction'),
+    path('news', views.news, name='news'),
     path('task', TaskListView.as_view(), name='tasks-home'),
     path('task_client', TaskClientListView.as_view(), name='tasks-home-client'),
     path('worker', views.worker, name='worker'),
@@ -49,8 +51,8 @@ urlpatterns = [
     path('user/<str:username>/client_create', CreateClientView.as_view(), name='client-create'),
     path('user/<str:username>/my_offers', OfferListView.as_view(), name='my-offers'),
     path('worker/<int:pk>', WorkerProfileView.as_view(), name='worker-profile'),
-path('client/<int:pk>', ClientProfileView.as_view(), name='client-profile'),
+    path('client/<int:pk>', ClientProfileView.as_view(), name='client-profile'),
     path('worker/<int:pk>/worker_comment_form', views.worker_comment_form, name='worker-comment-form'),
-path('client/<int:pk>/client_comment_form', views.client_comment_form, name='client-comment-form'),
+    path('client/<int:pk>/client_comment_form', views.client_comment_form, name='client-comment-form'),
     path('task/<int:pk>/task_candidates/<int:pk1>/worker_to_task/', WorkerToTaskView.as_view(), name='worker-to-task'),
 ]

@@ -21,29 +21,24 @@
     {% for conversation in conversations %}
         <div class="card mb-4 rounded-3 shadow-sm">
             <article class="container mb-4">
-              <img class="rounded-circle article-img" src="{{ conversation.user2.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-              <div class="media-body">
-                    <div class="article-metadata">
+              <img class="rounded-circle article-img" src="{{ conversation.user2.profile.image.url }}" width="50" height="50" alt="аватар заказчика">
+
                       <a class="mr-2" href="{% url 'chat' conversation.user2.id %}">{{ conversation.user2 }}</a>
-                        <p>{{ conversation.user1 }}</p>
-                    </div>
-              </div>
+
+
 
             </article>
         </div>
     {% endfor %}
 {% for conversation in conversations2 %}
         <div class="card mb-4 rounded-3 shadow-sm">
-            <article class="container mb-4">
-              <img class="rounded-circle article-img" src="{{ conversation.user1.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-              <div class="media-body">
-                    <div class="article-metadata">
-                      <a class="mr-2" href="{% url 'chat' conversation.user1.id %}">{{ conversation.user1 }}</a>
-                        <p>{{ conversation.user2 }}</p>
-                    </div>
-              </div>
+            <div class="container mb-4">
+              <img class="rounded-circle article-img" src="{{ conversation.user1.profile.image.url }}" width="50" height="50" alt="аватар заказчика">
 
-            </article>
+                      <a class="mr-2" href="{% url 'chat' conversation.user1.id %}">{{ conversation.user1 }}</a>
+
+
+            </div>
         </div>
     {% endfor %}
 {% else %}

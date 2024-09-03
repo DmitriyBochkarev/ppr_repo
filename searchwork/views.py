@@ -153,6 +153,12 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def about(request):
     return render(request, 'searchwork/about.html', {'title': 'О клубе PPR.net'})
 
+def instruction(request):
+    return render(request, 'searchwork/instruction.html', {'title': 'Инструкция'})
+
+def news(request):
+    return render(request, 'searchwork/news.html', {'title': 'Новости сайта'})
+
 
 class UserTaskListView(ListView):
     model = Task
