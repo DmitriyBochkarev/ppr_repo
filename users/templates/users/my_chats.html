@@ -16,6 +16,7 @@
     </div>
   </div>
 {% if conversations or conversations2 %}
+<div class="container">
     <h1 class="mb-3">Мои чаты</h1>
     {% for conversation in conversations %}
         <div class="card mb-4 rounded-3 shadow-sm">
@@ -49,4 +50,5 @@
 <h1>Нет чатов.</h1>
 
         {% endif %}
+    </div>
 {% endblock base %}
