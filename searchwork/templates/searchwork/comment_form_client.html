@@ -6,7 +6,8 @@
     <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-tasks-client' task.author.username %}">{{ task.author }}</a>
+        <a class="mr-2" href="{% url 'client-profile' task.author.client.id %}">Заказчик: {{ task.author.username }}</a>
+        <a class="mr-2" href="{% url 'user-tasks-client' object.author.username %}">Все задачи заказчика {{ object.author }}</a>
         <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
 
       </div>

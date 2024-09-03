@@ -5,7 +5,10 @@
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-tasks-client' object.author.username %}">{{ object.author }}</a>
+        <a class="mr-2" href="{% url 'client-profile' task.author.client.id %}">Заказчик: {{ task.author.username }}</a>
+        <br/>
+        <a class="mr-2" href="{% url 'user-tasks-client' object.author.username %}">Все задачи заказчика {{ object.author }}</a>
+        <br/>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 
       </div>
