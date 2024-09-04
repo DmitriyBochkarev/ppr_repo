@@ -14,8 +14,9 @@ from django.contrib import messages
 # from . forms import FilterForm
 from .filters import TaskFilter
 from django_filters.views import FilterView
-from .forms import CommentForm
+from .forms import CommentForm, SearchForm
 from users.forms import WorkerCommentForm, ClientCommentForm
+from django.db.models import Q
 
 
 class TaskListView(ListView):
@@ -672,3 +673,30 @@ class TaskClientFilteredView(FilterView):
                          f'Отсортировано по {sort_by}')
 
         return queryset
+
+
+def search(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        # Здесь вы можете реализовать поиск по всем моделям и страницам вашего сайта
+        # Пример поиска по заголовку и содержимому постов:
+        tasks = Task.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        )
+        workers = Worker.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        )
+        # Добавьте другие модели, которые вы хотите включить в поиск
+        clients = Client.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        )
+    else:
+        tasks = Task.objects.none()
+        workers = Worker.objects.none()
+        clients = Client.objects.none()
+
+    return render(request, 'search.html', {'form': form, 'tasks': tasks, 'workers': workers, 'clients': clients})
