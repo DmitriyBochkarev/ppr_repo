@@ -1,6 +1,19 @@
 {% extends "searchwork/base_client.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'client' %}">Мои задачи</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Создать новое задание
+      </li>
+    </ol>
+
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -10,7 +23,7 @@
             </fieldset>
             <br/>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Сохранить</button>
+                <button class="btn btn-info" type="submit">Сохранить</button>
             </div>
         </form>
     </div>

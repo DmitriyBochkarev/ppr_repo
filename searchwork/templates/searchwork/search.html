@@ -5,16 +5,9 @@
   <div class="container">
     <div class="d-flex justify-content-between">
       {% if user.is_authenticated %}
-        <form>
-            <a class="btn btn-outline-info" href="{% url 'client' %}">Мои задания</a>
-
-            <a class="btn btn-outline-info" href="{% url 'workers' %}">Исполнители</a>
-
-            <a class="btn btn-outline-info" href="{% url 'tasks-home-client' %}">Все задания</a>
-        </form>
         <div>
             <div class="input-group">
-                <a class="btn btn-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
                 <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
       	    </div>
 		</div>
@@ -28,7 +21,7 @@
 <h1>Поиск</h1>
     <form method="get" action="{% url 'search' %}">
         {{ form|crispy }}
-        <button class="btn btn-outline-info" type="submit">Поиск</button>
+        <button class="btn btn-info" type="submit">Поиск</button>
     </form>
 {% if tasks or user_workers or user_clients %}
     <h2>Результаты поиска:</h2>

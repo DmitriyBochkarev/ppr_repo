@@ -1,5 +1,14 @@
 {% extends "searchwork/base_client.html" %}
 {% block content %}
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Мои задачи
+      </li>
+    </ol>
+
     <a class="btn btn-outline-info" href="{% url 'task-create' %}">Создать новое задание</a>
 
     {% if tasks %}

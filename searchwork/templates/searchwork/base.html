@@ -29,10 +29,7 @@
     </svg>
 
     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-      </button>
+
       <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
         <li>
           <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
@@ -61,10 +58,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
   <div class="container-fluid">
-    <a class="btn btn-outline-info navbar-brand " href="{% url 'searchwork-about' %}">Главная страница</a>
-    <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="btn btn-outline navbar-brand " href="{% url 'searchwork-about' %}">Главная страница</a>
+
 
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -72,16 +67,16 @@
 
             {% if user.is_authenticated %}
 
-            	<a class="btn btn-outline-info" href="{% url 'profile' %}">Профиль</a>
-                <a class="btn btn-outline-info" href="{% url 'chats' %}">Мои чаты</a>
-                <a class="btn btn-outline-info" href="{% url 'instruction' %}">Инструкция</a>
-                <a class="btn btn-outline-info" href="{% url 'news' %}">Новости сайта</a>
-                <a class="btn btn-outline-info" href="{% url 'search' %}">Поиск</a>
+            	<a class="nav-link active" href="{% url 'profile' %}">Профиль</a>
+                <a class="nav-link active" href="{% url 'chats' %}">Мои чаты</a>
+                <a class="nav-link active" href="{% url 'instruction' %}">Инструкция</a>
+                <a class="nav-link active" href="{% url 'news' %}">Новости сайта</a>
+                <a class="nav-link active" href="{% url 'search' %}">Поиск</a>
 
-            	<a class="btn btn-outline-info" href="{% url 'logout' %}">Выход</a>
+            	<a class="nav-link active" href="{% url 'logout' %}">Выход</a>
           	{% else %}
-            	<a class="btn btn-outline-info" href="{% url 'login' %}">Вход</a>
-            	<a class="btn btn-outline-info" href="{% url 'register' %}">Регистрация</a>
+            	<a class="nav-link active" href="{% url 'login' %}">Вход</a>
+            	<a class="nav-link active" href="{% url 'register' %}">Регистрация</a>
           	{% endif %}
       </div>
 

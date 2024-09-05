@@ -7,7 +7,7 @@
       {% if user.is_authenticated %}
         <div>
             <div class="input-group">
-                <a class="btn btn-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
                 <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
       	    </div>
 		</div>
@@ -35,7 +35,7 @@
 			  </fieldset>
 			<br/>
 			  <div class="form-group">
-				  <button class="btn btn-outline-info" type="submit">Обновить</button>
+				  <button class="btn btn-info" type="submit">Обновить</button>
 			  </div>
 		</form>
 	</div>
