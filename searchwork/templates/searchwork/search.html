@@ -1,0 +1,57 @@
+{% extends "searchwork/base.html" %}
+{% load crispy_forms_tags %}
+{% block base %}
+<div  class="p-2 "></div>
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      {% if user.is_authenticated %}
+        <form>
+            <a class="btn btn-outline-info" href="{% url 'client' %}">Мои задания</a>
+
+            <a class="btn btn-outline-info" href="{% url 'workers' %}">Исполнители</a>
+
+            <a class="btn btn-outline-info" href="{% url 'tasks-home-client' %}">Все задания</a>
+        </form>
+        <div>
+            <div class="input-group">
+                <a class="btn btn-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
+      	    </div>
+		</div>
+      {% endif %}
+    </div>
+</div>
+<div  class="p-2 shadow-sm"></div>
+<div  class="p-2 "></div>
+<main class="container">
+
+<h1>Поиск</h1>
+    <form method="get" action="{% url 'search' %}">
+        {{ form|crispy }}
+        <button type="submit">Поиск</button>
+    </form>
+
+    {% if tasks or workers or clients %}
+        <h2>Результаты поиска:</h2>
+        <h3>Задачи</h3>
+        <ul>
+            {% for task in tasks %}
+                <li><a href="{% url 'task-detail' task.pk %}">{{ task.title }}</a></li>
+            {% empty %}
+                <li>Нет результатов</li>
+            {% endfor %}
+        </ul>
+        <h3>Исполнители</h3>
+        <ul>
+            {% for worker in workers %}
+                <li><a href="{% url 'worker-detail' worker.pk %}">{{ worker.username }}</a></li>
+            {% empty %}
+                <li>Нет результатов</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Введите поисковый запрос.</p>
+    {% endif %}
+
+</main>
+{% endblock base %}

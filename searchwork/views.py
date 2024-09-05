@@ -683,20 +683,24 @@ def search(request):
         # Пример поиска по заголовку и содержимому постов:
         tasks = Task.objects.filter(
             Q(title__icontains=query) |
-            Q(content__icontains=query)
+            Q(content__icontains=query) |
+            Q(type__icontains=query) |
+            Q(category__icontains=query)
         )
-        workers = Worker.objects.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query)
-        )
-        # Добавьте другие модели, которые вы хотите включить в поиск
-        clients = Client.objects.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query)
-        )
+        # workers = Worker.objects.filter(
+        #     Q(user__exact=query)
+        # )
+        # # Добавьте другие модели, которые вы хотите включить в поиск
+        # clients = Client.objects.filter(
+        #     Q(user__exact=query)
+        # )
     else:
         tasks = Task.objects.none()
-        workers = Worker.objects.none()
-        clients = Client.objects.none()
+        # workers = Worker.objects.none()
+        # clients = Client.objects.none()
 
-    return render(request, 'search.html', {'form': form, 'tasks': tasks, 'workers': workers, 'clients': clients})
+    return render(request, 'searchwork/search.html', {'form': form,
+                                                      'tasks': tasks,
+                                                      # 'workers': workers,
+                                                      # 'clients': clients
+                                                      })
