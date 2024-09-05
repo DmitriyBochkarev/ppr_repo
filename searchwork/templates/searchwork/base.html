@@ -67,7 +67,7 @@
     </button>
 
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="navbar-nav me-auto mb-2 mb-lg-0">
 
 
             {% if user.is_authenticated %}
@@ -83,7 +83,7 @@
             	<a class="btn btn-outline-info" href="{% url 'login' %}">Вход</a>
             	<a class="btn btn-outline-info" href="{% url 'register' %}">Регистрация</a>
           	{% endif %}
-      </ul>
+      </div>
 
     </div>
   </div>

@@ -687,20 +687,20 @@ def search(request):
             Q(type__icontains=query) |
             Q(category__icontains=query)
         )
-        # workers = Worker.objects.filter(
-        #     Q(user__exact=query)
-        # )
+        user_workers = User.objects.filter(
+            Q(username__exact=query)
+        )
         # # Добавьте другие модели, которые вы хотите включить в поиск
-        # clients = Client.objects.filter(
-        #     Q(user__exact=query)
-        # )
+        user_clients = User.objects.filter(
+            Q(username__exact=query)
+        )
     else:
         tasks = Task.objects.none()
-        # workers = Worker.objects.none()
-        # clients = Client.objects.none()
+        user_workers = Worker.objects.none()
+        user_clients = Client.objects.none()
 
     return render(request, 'searchwork/search.html', {'form': form,
                                                       'tasks': tasks,
-                                                      # 'workers': workers,
-                                                      # 'clients': clients
+                                                      'user_workers': user_workers,
+                                                      'user_clients': user_clients
                                                       })

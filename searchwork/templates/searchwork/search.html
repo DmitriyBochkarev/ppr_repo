@@ -28,11 +28,12 @@
 <h1>Поиск</h1>
     <form method="get" action="{% url 'search' %}">
         {{ form|crispy }}
-        <button type="submit">Поиск</button>
+        <button class="btn btn-outline-info" type="submit">Поиск</button>
     </form>
+{% if tasks or user_workers or user_clients %}
+    <h2>Результаты поиска:</h2>
+    {% if tasks  %}
 
-    {% if tasks or workers or clients %}
-        <h2>Результаты поиска:</h2>
         <h3>Задачи</h3>
         <ul>
             {% for task in tasks %}
@@ -41,17 +42,38 @@
                 <li>Нет результатов</li>
             {% endfor %}
         </ul>
+    {% else %}
+    <h3>Задачи</h3>
+        <p>Нет результатов.</p>
+    {% endif %}
+     {% if user_workers %}
         <h3>Исполнители</h3>
         <ul>
-            {% for worker in workers %}
-                <li><a href="{% url 'worker-detail' worker.pk %}">{{ worker.username }}</a></li>
+            {% for user_worker in user_workers %}
+                <li><a href="{% url 'worker-profile' user_worker.worker.id %}">{{ user_worker.username }}</a></li>
             {% empty %}
                 <li>Нет результатов</li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Введите поисковый запрос.</p>
+    <h3>Исполнители</h3>
+        <p>Нет результатов.</p>
     {% endif %}
-
+     {% if user_clients %}
+    <h3>Заказчики</h3>
+        <ul>
+            {% for user_client in user_clients %}
+                <li><a href="{% url 'client-profile' user_client.client.id %}">{{ user_client.username }}</a></li>
+            {% empty %}
+                <li>Нет результатов</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <h3>Заказчики</h3>
+        <p>Нет результатов.</p>
+    {% endif %}
+{% else %}
+        <p>Нет результатов.</p>
+    {% endif %}
 </main>
 {% endblock base %}
