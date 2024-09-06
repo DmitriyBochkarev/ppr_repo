@@ -1,12 +1,26 @@
 {% extends "searchwork/base_client.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'client' %}">Мои задачи</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Задача {{ task.title }}
+      </li>
+    </ol>
+
 <div class="card mb-4 rounded-3 shadow-sm">
   <article class="container">
     <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
     <div class="media-body">
       <div class="article-metadata">
         <a class="mr-2" href="{% url 'client-profile' task.author.client.id %}">Заказчик: {{ task.author.username }}</a>
+          <br/>
         <a class="mr-2" href="{% url 'user-tasks-client' task.author.username %}">Все задачи заказчика {{ object.author }}</a>
         <small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small>
 

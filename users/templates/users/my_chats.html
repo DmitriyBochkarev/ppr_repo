@@ -15,8 +15,23 @@
       {% endif %}
     </div>
   </div>
-{% if conversations or conversations2 %}
+
+<div  class="p-2 shadow-sm"></div>
 <div class="container">
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Мои чаты
+      </li>
+    </ol>
+
+{% if conversations or conversations2 %}
+
+
+
+
     <h1 class="mb-3">Мои чаты</h1>
     {% for conversation in conversations %}
         <div class="card mb-4 rounded-3 shadow-sm">
