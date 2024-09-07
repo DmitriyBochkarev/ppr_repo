@@ -2,6 +2,9 @@
 {% block base %}
 <div  class="p-2 "></div>
 <div class="container">
+
+
+
     <div class="d-flex justify-content-between">
       {% if user.is_authenticated %}
         <div>
@@ -16,8 +19,17 @@
     </div>
   </div>
 <div  class="p-2 shadow-sm"></div>
-<div  class="p-2 "></div>
 <div class="container">
+
+    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Новости
+      </li>
+    </ol>
+
     <h1>Новости сайта</h1>
     <h3>Версия: 1.0.3 Dmitriy on 03.09.2024 at 21:31</h3>
     <p>Доработка: Добавлен просмотр всех заказчиков. Добавлен профиль заказчика. Добавлена возможность написать заказчику из задачи. Добавлен чат. Добавлена кнопка Мои чаты</p>

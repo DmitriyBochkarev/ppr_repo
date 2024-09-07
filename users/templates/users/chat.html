@@ -2,6 +2,18 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'chats' %}">Мои чаты</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Чат с {{ other_user.username }}
+      </li>
+    </ol>
+
     <h1>Чат с {{ other_user.username }}</h1>
     <form method="POST">
         {% csrf_token %}

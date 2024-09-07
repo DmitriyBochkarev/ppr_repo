@@ -1,5 +1,15 @@
 {% extends "searchwork/base_worker.html" %}
 {% block content %}
+
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Все задачи
+      </li>
+    </ol>
+
         {% if tasks %}
 <div class="d-flex justify-content-between">
             <a class="btn btn-outline-info" href="{% url 'my-offers' user.username %}">Мои отклики</a>
