@@ -1,7 +1,26 @@
-{% extends "searchwork/base_client.html" %}
+{% extends "searchwork/base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
 
+{% block base %}
+<div  class="p-2 "></div>
+<div class="container">
+    <div class="d-flex justify-content-between">
+      {% if user.is_authenticated %}
+        <div>
+            <div class="input-group">
+                <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
+      	    </div>
+		</div>
+
+
+      {% endif %}
+    </div>
+  </div>
+<div  class="p-2 shadow-sm"></div>
+<div  class="p-2 "></div>
+
+<main class="container">
 
     <h1>Профиль {{ user.username }}</h1>
 
@@ -22,5 +41,5 @@
             {% endif %}
         </div>
     </div>
-
-{% endblock content %}
+</main>
+{% endblock base %}

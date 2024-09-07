@@ -152,7 +152,8 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def about(request):
-    return render(request, 'searchwork/about.html', {'title': 'О клубе PPR.net'})
+    tasks = Task.objects.all()
+    return render(request, 'searchwork/about.html', {'title': 'О клубе PPR.net', 'tasks': tasks})
 
 def instruction(request):
     return render(request, 'searchwork/instruction.html', {'title': 'Инструкция'})
@@ -255,7 +256,11 @@ def client(request):
 
 
 def home(request):
-    return render(request, 'searchwork/about.html')
+    """Чтобы перейти на about при вводе основного урла"""
+    tasks = Task.objects.all()
+    return render(request, 'searchwork/about.html',
+                  {'tasks': tasks}
+                  )
 
 
 class OfferListView(ListView):

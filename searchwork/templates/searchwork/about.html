@@ -1,23 +1,85 @@
 {% extends "searchwork/base.html" %}
 {% block base %}
 <div  class="p-2 "></div>
+{% if request.user.is_authenticated %}
 <div class="container">
-    <div class="d-flex justify-content-between">
-      {% if user.is_authenticated %}
-        <div>
+
+    <div>
             <div class="input-group">
                 <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
                 <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
       	    </div>
 		</div>
-
-
-      {% endif %}
-    </div>
   </div>
 <div  class="p-2 shadow-sm"></div>
 <div  class="p-2 "></div>
+{% else %}
 <div class="container">
 
+
+
+    <h1>Биржа проектов</h1>
+{% if tasks %}
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                {% for task in tasks %}
+                      <div class="col">
+                        <div class="card mb-4 rounded-3 shadow-sm">
+                          <div class="card-header py-3">
+                              <a class="card-title pricing-card-title" href="{% url 'login' %}"><h6>Задание: {{ task.title }}</h6></a>
+                          </div>
+                          <div class="card-body">
+
+                            <ul class="list-unstyled mt-3 mb-4">
+                              <li>
+                                  <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
+                              </li>
+                                <li><a class="mr-2" href="{% url 'login' %}">Заказчик: {{ task.author.username }}</a></li>
+                                <li><a class="mr-2" href="{% url 'login' %}">Все задачи заказчика: {{ task.author }}</a></li>
+                              <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
+
+                                <li><h3>{{ task.budget }} руб.</h3></li>
+                              <li>Статус: {{ task.status }}</li>
+                                <p class="input-group-text">Тип: {{ task.type }}</p>
+                                <p class="input-group-text">Категория: {{ task.category }}</p>
+                            </ul>
+
+                          </div>
+                        </div>
+                      </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1>В системе пока не зарегистрировано ни одного задания.</h1>
+            <a class="btn btn-outline-info" href="{% url 'login' %}">Стать заказчиком</a>
+
+        {% endif %}
+
+
+    <div class="pagination justify-content-center">
+        {% if is_paginated %}
+
+          {% if page_obj.has_previous %}
+
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page=1">Первая</a>
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+          {% endif %}
+
+        {% endif %}
+    </div>
 </div>
+{% endif %}
+
 {% endblock base %}
