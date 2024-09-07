@@ -173,3 +173,8 @@ def chats(request):
         'conversations': conversations,
         'conversations2': conversations2
     })
+
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'users/user_profile.html',
+                          {'user': user})

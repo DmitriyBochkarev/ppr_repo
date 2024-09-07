@@ -1,0 +1,26 @@
+{% extends "searchwork/base_client.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+    <h1>Профиль {{ user.username }}</h1>
+
+    <div class="card mb-4 rounded-3 shadow-sm" id="chat_messages">
+        <div class="card-header py-3">
+            <div class="d-flex justify-content-between">
+                <div>
+                <img class="rounded-circle article-img" src="{{ user.profile.image.url }}" width="50" height="50" alt="аватар заказчика">
+                <a class="card-title pricing-card-title" href="#">{{ user.username }}</a>
+
+
+                </div>
+                <h2></h2>
+            </div>
+            <br/>
+            {% if request.user == user %}
+            <a class="card-title pricing-card-title" href="{% url 'profile' %}">Редактировать профиль</a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock content %}

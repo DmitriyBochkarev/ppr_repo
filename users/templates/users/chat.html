@@ -29,7 +29,7 @@
             <div class="d-flex justify-content-between">
                 <div>
                 <img class="rounded-circle article-img" src="{{ chat_message.sender.profile.image.url }}" width="50" height="50" alt="аватар заказчика">
-                <a class="card-title pricing-card-title" href="#">{{ chat_message.sender.username }}</a>
+                <a class="card-title pricing-card-title" href="{% url 'user-profile' chat_message.sender.id %}">{{ chat_message.sender.username }}</a>
 
                         <div class="card mb-4 rounded-3 shadow-sm">
                           <div class="card-body">
@@ -49,7 +49,7 @@
                     <div>
                     <img class="rounded-circle article-img" src="{{ chat_message.sender.profile.image.url }}" width="50" height="50" alt="аватар заказчика">
 
-                    <a class="card-title pricing-card-title" href="#">{{ chat_message.sender.username }}</a>
+                    <a class="card-title pricing-card-title" href="{% url 'user-profile' chat_message.sender.id %}">{{ chat_message.sender.username }}</a>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">

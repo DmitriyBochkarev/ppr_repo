@@ -14,6 +14,7 @@ urlpatterns = [
 path('clients', ClientListView.as_view(), name='clients'),
     path('chat/<int:user_id>/', user_views.chat_view, name='chat'),
 path('chats', user_views.chats, name='chats'),
+path('<int:user_id>/', user_views.user_profile, name='user-profile'),
 # path('<str:username>/chats', ChatListView.as_view(), name='my-chats'),
 path('filter_workers', WorkerFilteredView.as_view(), name='filter-workers'),
 path('filter_clients', ClientFilteredView.as_view(), name='filter-clients'),
