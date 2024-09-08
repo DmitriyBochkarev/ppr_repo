@@ -18,6 +18,7 @@ path('<int:user_id>/', user_views.user_profile, name='user-profile'),
 # path('<str:username>/chats', ChatListView.as_view(), name='my-chats'),
 path('filter_workers', WorkerFilteredView.as_view(), name='filter-workers'),
 path('filter_clients', ClientFilteredView.as_view(), name='filter-clients'),
+path('feedback/', user_views.feedback_view, name='feedback'),
 
 ]
 

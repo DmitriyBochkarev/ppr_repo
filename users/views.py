@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, MessageForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, MessageForm, FeedbackForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -12,6 +12,7 @@ from django.views.generic import (
 from .models import Worker, Conversation, Message, User, Client
 from .filters import WorkerFilter, ClientFilter
 from django_filters.views import FilterView
+from django.core.mail import send_mail
 
 def register(request):
     if request.method == 'POST':
@@ -178,3 +179,21 @@ def user_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
     return render(request, 'users/user_profile.html',
                           {'user': user})
+
+
+def feedback_view(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            # Отправка email
+            send_mail(
+                f"Сообщение от {form.cleaned_data['name']}",
+                form.cleaned_data['message'],
+                form.cleaned_data['email'],
+                ['random10208@mail.ru'],  # Email, на который будет отправлено сообщение
+                fail_silently=False,
+            )
+            return render(request, 'users/feedback_success.html')  # Страница успешной отправки
+    else:
+        form = FeedbackForm()
+    return render(request, 'users/feedback.html', {'form': form})

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, WorkerComment, Message, ClientComment
+from .models import Profile, WorkerComment, Message, ClientComment, Feedback
 
 
 class UserRegisterForm(UserCreationForm):
@@ -39,3 +39,9 @@ class ClientCommentForm(forms.ModelForm):
     class Meta:
         model = ClientComment
         fields = ['text']
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'message']
