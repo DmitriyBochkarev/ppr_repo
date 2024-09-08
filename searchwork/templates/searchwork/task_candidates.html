@@ -1,6 +1,6 @@
 {% extends "searchwork/base_client.html" %}
 {% block content %}
-
+{% if request.user == task.author %}
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% if candidates %}
             {% for candidate in candidates %}
@@ -67,4 +67,8 @@
 
         {% endif %}
     </div>
+
+{% else %}
+<a class="mr-2" href="#"><h2>Вы не можете просматривать отклики на задачи этого автора</h2></a>
+{% endif %}
 {% endblock content %}

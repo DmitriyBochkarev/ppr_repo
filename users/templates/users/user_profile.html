@@ -2,10 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block base %}
+
+{% if request.user.is_authenticated %}
 <div  class="p-2 "></div>
 <div class="container">
     <div class="d-flex justify-content-between">
-      {% if user.is_authenticated %}
+
         <div>
             <div class="input-group">
                 <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
@@ -14,7 +16,7 @@
 		</div>
 
 
-      {% endif %}
+
     </div>
   </div>
 <div  class="p-2 shadow-sm"></div>
@@ -42,4 +44,21 @@
         </div>
     </div>
 </main>
+
+{% else %}
+<div  class="p-2 "></div>
+<div class="container">
+    <div class="d-flex justify-content-between">
+
+        <div>
+            <div class="input-group">
+                <a class="btn btn-outline-info" href="{% url 'login' %}">Вы не вошли на сайт</a>
+      	    </div>
+		</div>
+
+
+
+    </div>
+  </div>
+{% endif %}
 {% endblock base %}

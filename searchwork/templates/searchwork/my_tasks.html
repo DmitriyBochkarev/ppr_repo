@@ -1,5 +1,7 @@
 {% extends "searchwork/base_client.html" %}
 {% block content %}
+{% if request.user.is_authenticated %}
+
 <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
       <li class="breadcrumb-item">
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
@@ -12,8 +14,10 @@
     <a class="btn btn-outline-info" href="{% url 'task-create' %}">Создать новое задание</a>
 
     {% if tasks %}
+
     <h1 class="mb-3">Мои задачи</h1>
     {% for task in tasks %}
+{% if request.user == task.author %}
         <div class="card mb-4 rounded-3 shadow-sm">
             <article class="container mb-4">
               <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
@@ -40,6 +44,9 @@
               </div>
             </article>
         </div>
+{% else %}
+<h1>Вы не можете просматривать задачи данного пользователя.</h1>
+{% endif %}
     {% endfor %}
 {% else %}
 <h1>Вы пока не создали ни одного задания.</h1>
@@ -69,4 +76,7 @@
 
     {% endif %}
   </div>
+{% else %}
+<a class="mr-2" href="{% url 'login' %}"><h2>Вы не вошли на сайт</h2></a>
+{% endif %}
 {% endblock content %}
