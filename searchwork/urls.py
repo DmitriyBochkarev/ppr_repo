@@ -56,4 +56,8 @@ urlpatterns = [
     path('worker/<int:pk>/worker_comment_form', views.worker_comment_form, name='worker-comment-form'),
     path('client/<int:pk>/client_comment_form', views.client_comment_form, name='client-comment-form'),
     path('task/<int:pk>/task_candidates/<int:pk1>/worker_to_task/', WorkerToTaskView.as_view(), name='worker-to-task'),
+    path('robokassa/success/', views.success_view, name='robokassa-uccess'),
+    path('robokassa/fail/', views.fail_view, name='robokassa-fail'),
+    path('robokassa/payment/', views.fail_view, name='robokassa-payment'),
+
 ]

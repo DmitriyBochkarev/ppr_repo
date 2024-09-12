@@ -17,6 +17,8 @@ from django_filters.views import FilterView
 from .forms import CommentForm, SearchForm
 from users.forms import WorkerCommentForm, ClientCommentForm
 from django.db.models import Q
+from robokassa.signals import fail_page_visited
+from robokassa.forms import RobokassaForm
 
 
 class TaskListView(ListView):
@@ -709,3 +711,19 @@ def search(request):
                                                       'user_workers': user_workers,
                                                       'user_clients': user_clients
                                                       })
+
+
+def success_view(request):
+    # Логика обработки успешного платежа
+    return render(request, 'searchwork/success.html')
+
+def fail_view(request):
+    # Логика обработки неудачного платежа
+    return render(request, 'searchwork/fail.html')
+
+
+def create_order(request):
+    form = RobokassaForm(initial={
+        'OutSum': '100.00',  # Сумма платежа
+    })
+    return render(request, 'searchwork/payment.html', {'form': form})

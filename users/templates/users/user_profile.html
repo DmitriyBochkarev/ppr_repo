@@ -39,7 +39,10 @@
             <div class="d-flex justify-content-between">
                 <div>
                 <img class="rounded-circle article-img" src="{{ user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
-                <a class="card-title pricing-card-title" href="#">{{ user.email }}</a>
+                    <br/>
+                    <p class="card-title pricing-card-title" >{{ user.username }}</p>
+                    <br/>
+                <p class="card-title pricing-card-title">{{ user.email }}</p>
                     {% if user.worker %}
                         <p>Пользователь является исполнителем</p>
                         <a class="card-title pricing-card-title" href="{% url 'worker-profile' user.worker.id %}">Посмотреть портфолио исполнителя</a>

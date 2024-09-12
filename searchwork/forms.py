@@ -1,6 +1,7 @@
 from django import forms
 from .models import Comment
 
+
 # CATEGORY_CHOICES = (
 #     ('Любой', 'Любой'),
 #     ('Земля', 'Земля'),

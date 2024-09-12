@@ -1,0 +1,7 @@
+{% extends "searchwork/base_client.html" %}
+{% block content %}
+<form action="{{ form.get_redirect_url }}" method="POST">
+    {{ form.target }}
+    <button type="submit">Оплатить</button>
+</form>
+{% endblock content %}

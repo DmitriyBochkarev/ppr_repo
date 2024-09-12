@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # installed packages
     'crispy_forms',
     'crispy_bootstrap4',
+    # cистема оплаты
+    'robokassa',
 
     # my app
     'searchwork.apps.SearchworkConfig',
@@ -150,3 +152,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bochkarev10208@gmail.com'
 EMAIL_HOST_PASSWORD = ''
+
+ROBOKASSA_LOGIN = 'bochkarevda'
+ROBOKASSA_PASSWORD1 = 'f1225iil1r'
+ROBOKASSA_TEST_MODE = True
+ROBOKASSA_TEST_FORM_TARGET = 'http://192.168.0.74:18075/robokassa/payment'
