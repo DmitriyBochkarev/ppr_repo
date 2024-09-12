@@ -119,6 +119,7 @@ def client_comment_form(request, pk):
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
+    """Форма создания задачи"""
     model = Task
     fields = ['title', 'content', 'status', 'budget', 'type', 'category']
 
