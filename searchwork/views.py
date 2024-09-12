@@ -123,8 +123,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     fields = ['title', 'content', 'status', 'budget', 'type', 'category']
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        if Client.objects.filter(user=self.request.user):
+            form.instance.author = self.request.user
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'users/client_create.html')
 
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

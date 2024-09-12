@@ -1,13 +1,13 @@
 {% extends "searchwork/base_client.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% if user.is_authenticated %}
 <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
       <li class="breadcrumb-item">
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
       </li>
     <li class="breadcrumb-item">
-        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'client' %}">Мои задачи</a>
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'tasks-home-client' %}">Все задания</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         Задача {{ task.title }}
@@ -67,4 +67,8 @@
                       </div>
     {% endfor %}
 </ul>
+
+{% else %}
+<a class="mr-2" href="{% url 'login' %}"><h2>Вы не вошли на сайт</h2></a>
+{% endif %}
 {% endblock content %}

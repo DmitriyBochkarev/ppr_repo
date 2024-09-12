@@ -1,6 +1,15 @@
 {% extends "searchwork/base_client.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Все задания
+      </li>
+    </ol>
+
 <div class="d-flex justify-content-between">
             <a class="btn btn-outline-info" href="{% url 'task-create' %}">Создать новое задание</a>
 <div>
