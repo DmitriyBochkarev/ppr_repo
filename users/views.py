@@ -187,9 +187,9 @@ def feedback_view(request):
         if form.is_valid():
             # Отправка email
             send_mail(
-                f"Сообщение от {form.cleaned_data['name']}",
+                f"Сообщение от {form.cleaned_data['name']}, email adress {form.cleaned_data['email']}",
                 form.cleaned_data['message'],
-                form.cleaned_data['email'],
+                'random1022008@yandex.ru',
                 ['bochkarev10208@gmail.com'],  # Email, на который будет отправлено сообщение
                 fail_silently=False,
             )
