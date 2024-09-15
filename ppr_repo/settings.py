@@ -147,11 +147,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'bochkarev10208@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'random1022008'
+EMAIL_HOST_PASSWORD = 'txqnplnfukaqykrq'
 
 ROBOKASSA_LOGIN = 'bochkarevda'
 ROBOKASSA_PASSWORD1 = 'f1225iil1r'
