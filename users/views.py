@@ -189,7 +189,7 @@ def feedback_view(request):
             send_mail(
                 f"Сообщение от {form.cleaned_data['name']}, email adress {form.cleaned_data['email']}",
                 form.cleaned_data['message'],
-                'random1022008@yandex.ru',
+                'random1022008@yandex.ru', # Email аккаунта сервера smtp
                 ['bochkarev10208@gmail.com'],  # Email, на который будет отправлено сообщение
                 fail_silently=False,
             )

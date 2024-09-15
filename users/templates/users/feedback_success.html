@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Успех</title>
-</head>
-<body>
-    <h1>Спасибо за ваше сообщение!</h1>
-</body>
-</html>
+{% extends "searchwork/base.html" %}
+{% load crispy_forms_tags %}
+{% block base %}
+
+<div  class="p-2 "></div>
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      {% if user.is_authenticated %}
+        <div>
+            <div class="input-group">
+                <a class="btn btn-outline-info" href="{% url 'client' %}">Я покупатель</a>
+                <a class="btn btn-outline-info" href="{% url 'worker' %}">Я исполнитель</a>
+      	    </div>
+		</div>
+
+      {% endif %}
+    </div>
+  </div>
+
+
+
+<div  class="p-2 shadow-sm"></div>
+
+
+
+<main class="container">
+
+    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'searchwork-about' %}">Главная страница</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+          Обратная связь
+      </li>
+    </ol>
+
+<h1>Спасибо за ваше сообщение!</h1>
+
+</main>
+{% endblock base %}
+
