@@ -290,12 +290,13 @@ class ClientProfileView(DetailView):
 
 class WorkerToTaskView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
-    fields = ['title', 'content']
+    fields = ['title']
 
+    context_object_name = 'task'
+    template_name = 'searchwork/worker_to_task.html'
     def form_valid(self, form):
         form.instance.author = self.request.user
         user = User.objects.get(id=self.kwargs.get('pk1'))
-
         form.instance.worker = user
         form.instance.status = 'В процессе'
         messages.success(self.request, 'Исполнитель назначен. Статус задачи изменен на "В процессе".')
