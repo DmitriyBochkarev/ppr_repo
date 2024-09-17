@@ -1,9 +1,10 @@
 {% extends "searchwork/base_client.html" %}
 {% block content %}
-{% if request.user == task.author %}
+
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% if candidates %}
             {% for candidate in candidates %}
+        {% if request.user == candidate.task.author %}
               <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
                   <div class="card-header py-3">
@@ -27,6 +28,9 @@
                   </div>
                 </div>
               </div>
+        {% else %}
+<a class="mr-2" href="#"><h2>Вы не можете просматривать отклики на задачи этого автора</h2></a>
+{% endif %}
             {% endfor %}
 
         {% else %}
@@ -68,7 +72,5 @@
         {% endif %}
     </div>
 
-{% else %}
-<a class="mr-2" href="#"><h2>Вы не можете просматривать отклики на задачи этого автора</h2></a>
-{% endif %}
+
 {% endblock content %}
