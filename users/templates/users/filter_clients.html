@@ -38,7 +38,7 @@
             <h1>Каталог заказчиков</h1>
 
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                {% for clients in filter.qs %}
+                {% for client in filter.qs %}
                       <div class="col">
                         <div class="card mb-4 rounded-3 shadow-sm">
 
@@ -48,7 +48,7 @@
                               <li>
                                   <img class="rounded-circle article-img" src="{{ client.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
                               </li>
-                                <li><a class="mr-2" href="{% url 'client-profile' client.id %}">Заказчик: {{ client.user.username }}</a></li>
+                                <li><a class="mr-2" href="{% url 'client-profile' client.user.id %}">Заказчик: {{ client.user.username }}</a></li>
                                 <h3>Рейтинг: {{ client.rating }}</h3>
                             </ul>
 

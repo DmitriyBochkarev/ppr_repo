@@ -190,7 +190,7 @@ def feedback_view(request):
                 f"Сообщение от {form.cleaned_data['name']}, email adress {form.cleaned_data['email']}",
                 form.cleaned_data['message'],
                 'random1022008@yandex.ru', # Email аккаунта сервера smtp
-                ['bochkarev10208@gmail.com'],  # Email, на который будет отправлено сообщение
+                ['bochkarev10208@gmail.com', 'solo_00792@mail.ru'],  # Email, на который будет отправлено сообщение
                 fail_silently=False,
             )
             return render(request, 'users/feedback_success.html')  # Страница успешной отправки

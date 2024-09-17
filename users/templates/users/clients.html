@@ -24,7 +24,7 @@
                               <li>
                                   <img class="rounded-circle article-img" src="{{ client.user.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
                               </li>
-                                <li><a class="mr-2" href="{% url 'client-profile' client.id %}">Заказчик: {{ client.user.username }}</a></li>
+                                <li><a class="mr-2" href="{% url 'client-profile' client.id %}">Заказчик: {{ client.id }}</a></li>
                                 <h3>Рейтинг: {{ client.rating }}</h3>
                             </ul>
 

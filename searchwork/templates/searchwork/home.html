@@ -36,7 +36,7 @@
                               <li>
                                   <img class="rounded-circle article-img" src="{{ task.author.profile.image.url }}" width="100" height="100" alt="аватар заказчика">
                               </li>
-                                <li><a class="mr-2" href="{% url 'client-profile' task.author.client.id %}">Заказчик: {{ task.author.username }}</a></li>
+                                <li><a class="mr-2" href="{% url 'client-profile' task.author.client.id %}">Заказчик: {{ task.author.client }}</a></li>
                                 <li><a class="mr-2" href="{% url 'user-tasks' task.author.username %}">Все задачи заказчика: {{ task.author }}</a></li>
                               <li><small class="text-muted">{{ task.date_posted|date:"F d, Y" }}</small></li>
 
